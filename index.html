@@ -1,4189 +1,875 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>AcompanhAí · Sistema de Ocorrência Escolar</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 
 <style>
-
-/* =========================================================
-   VARIÁVEIS
-========================================================= */
-
+/* ===================== VARIÁVEIS ===================== */
 :root{
-    --paper:#EDEBE8;
-    --paper-deep:#E2DFDB;
-    --card:#FCFBFA;
-    --ink:#181414;
-    --ink-soft:#5A5250;
-    --line:#DAD5D1;
-
-    --primary:#8E1B26;
-    --primary-deep:#5A0F17;
-    --primary-tint:#F3DEDF;
-
-    --green:#218739;
-    --green-bg:#DDF3E2;
-
-    --yellow:#A87900;
-    --yellow-bg:#FFF0B8;
-
-    --red:#C0392B;
-    --red-bg:#F8DCD8;
-
-    --gold:#B8863A;
-
-    --radius:10px;
-
-    --shadow-1:0 1px 2px rgba(20,15,15,.06);
-    --shadow-2:0 8px 25px rgba(20,15,15,.14);
+  --paper:#EDEBE8; --paper-deep:#E2DFDB; --card:#FCFBFA;
+  --ink:#181414; --ink-soft:#5A5250; --line:#DAD5D1;
+  --primary:#8E1B26; --primary-deep:#5A0F17; --primary-tint:#F3DEDF;
+  --green:#218739; --green-bg:#DDF3E2;
+  --yellow:#A87900; --yellow-bg:#FFF0B8;
+  --red:#C0392B; --red-bg:#F8DCD8;
+  --gold:#B8863A; --radius:10px;
+  --shadow-1:0 1px 2px rgba(20,15,15,.06);
+  --shadow-2:0 8px 25px rgba(20,15,15,.14);
 }
-
 body.dark{
-    --paper:#111111;
-    --paper-deep:#1B1919;
-    --card:#211F1F;
-    --ink:#F3F1EF;
-    --ink-soft:#B9B2AF;
-    --line:#3A3535;
-
-    --primary:#D33A46;
-    --primary-deep:#FF7B84;
-    --primary-tint:#421D21;
-
-    --green:#61C878;
-    --green-bg:#17341F;
-
-    --yellow:#FFD15C;
-    --yellow-bg:#3D3312;
-
-    --red:#FF6B5D;
-    --red-bg:#401C19;
-}
-
-/* =========================================================
-   RESET
-========================================================= */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:'IBM Plex Sans',sans-serif;
-    background:var(--paper);
-    color:var(--ink);
-    min-height:100vh;
-    line-height:1.5;
-    transition:.25s;
-}
-
-.hidden{
-    display:none!important;
-}
-
-button,
-input,
-select,
-textarea{
-    font-family:inherit;
-}
-
-/* =========================================================
-   CAPA
-========================================================= */
-
-.capa-screen{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-    text-align:center;
-    color:white;
-
-    background:
-        radial-gradient(
-            900px 600px at 50% 0%,
-            rgba(179,39,45,.35),
-            transparent 60%
-        ),
-        linear-gradient(
-            160deg,
-            #060505 0%,
-            #120E0E 26%,
-            #2C0C10 55%,
-            #6E141C 82%,
-            #0E0B0B 100%
-        );
-}
-
-.capa-content{
-    max-width:500px;
-}
-
-.capa-seal{
-    width:100px;
-    height:100px;
-    margin:auto;
-    margin-bottom:22px;
-
-    border-radius:50%;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-family:'Source Serif 4',serif;
-    font-size:3rem;
-    font-weight:bold;
-
-    background:
-        radial-gradient(
-            circle at 32% 26%,
-            #E2333B,
-            #A3202B 45%,
-            #650F18
-        );
-
-    border:3px solid rgba(255,255,255,.25);
-    box-shadow:0 18px 40px rgba(0,0,0,.55);
-}
-
-.capa-kicker{
-    text-transform:uppercase;
-    letter-spacing:3px;
-    font-size:.72rem;
-    color:#E2858B;
-    font-weight:bold;
-}
-
-.capa-content h1{
-    font-family:'Source Serif 4',serif;
-    font-size:3.3rem;
-    margin-top:8px;
-}
-
-.capa-accent{
-    width:55px;
-    height:3px;
-    background:#E2333B;
-    margin:15px auto;
-}
-
-.capa-tagline{
-    font-size:1.05rem;
-    line-height:1.7;
-    color:#eee;
-}
-
-.capa-btn{
-    margin-top:32px;
-    padding:15px 45px;
-    border:none;
-    border-radius:10px;
-
-    background:linear-gradient(
-        90deg,
-        #D1333A,
-        #7A1420
-    );
-
-    color:white;
-    font-size:1rem;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.capa-btn:hover{
-    transform:translateY(-2px);
-    filter:brightness(1.1);
-}
-
-.capa-footer{
-    margin-top:28px;
-    font-size:.7rem;
-    letter-spacing:2px;
-    opacity:.5;
-}
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-.login-screen{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-
-    background:
-        radial-gradient(
-            800px 500px at 50% 0%,
-            rgba(179,39,45,.3),
-            transparent 60%
-        ),
-        linear-gradient(
-            150deg,
-            #090707,
-            #171212 24%,
-            #350D12 56%,
-            #7A1420 84%,
-            #100C0C
-        );
-}
-
-.login-card{
-    width:100%;
-    max-width:410px;
-
-    padding:34px 30px;
-
-    color:white;
-
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.22);
-    border-radius:18px;
-
-    backdrop-filter:blur(18px);
-    box-shadow:0 20px 60px rgba(0,0,0,.5);
-}
-
-.login-seal{
-    width:65px;
-    height:65px;
-    margin:auto;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:50%;
-
-    background:linear-gradient(
-        135deg,
-        #E2333B,
-        #650F18
-    );
-
-    font-family:'Source Serif 4',serif;
-    font-size:1.8rem;
-    font-weight:bold;
-}
-
-.login-card h1{
-    text-align:center;
-    font-family:'Source Serif 4',serif;
-    font-size:1.7rem;
-    margin-top:12px;
-}
-
-.login-sub{
-    text-align:center;
-    font-size:.75rem;
-    text-transform:uppercase;
-    letter-spacing:1.5px;
-    opacity:.7;
-    margin-bottom:22px;
-}
-
-.role-tabs{
-    display:grid;
-    grid-template-columns:1fr 1fr 1fr;
-    gap:5px;
-
-    padding:4px;
-
-    background:rgba(0,0,0,.25);
-    border-radius:9px;
-
-    margin-bottom:20px;
-}
-
-.role-tab{
-    padding:9px 5px;
-    border:none;
-    border-radius:7px;
-
-    background:transparent;
-    color:white;
-    opacity:.7;
-
-    cursor:pointer;
-    font-size:.78rem;
-}
-
-.role-tab.active{
-    background:white;
-    color:#181414;
-    opacity:1;
-}
-
-.login-card label{
-    display:block;
-    font-size:.75rem;
-    margin-bottom:6px;
-    opacity:.75;
-}
-
-.login-card input{
-    width:100%;
-    padding:12px;
-
-    border-radius:8px;
-    border:1px solid rgba(255,255,255,.3);
-
-    background:rgba(255,255,255,.08);
-    color:white;
-
-    outline:none;
-}
-
-.login-card input:focus{
-    border-color:#E2333B;
-}
-
-.login-group{
-    margin-bottom:15px;
-}
-
-.login-btn{
-    width:100%;
-    padding:13px;
-
-    border:none;
-    border-radius:8px;
-
-    background:linear-gradient(
-        90deg,
-        #B3272D,
-        #7A1420
-    );
-
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.login-hint{
-    margin-top:17px;
-    padding:11px;
-
-    border:1px dashed rgba(255,255,255,.3);
-    border-radius:8px;
-
-    font-size:.7rem;
-    text-align:center;
-}
-
-#error-login{
-    display:none;
-    color:#FFD9D6;
-    font-size:.8rem;
-    margin-bottom:12px;
-}
-
-#error-login.show{
-    display:block;
-}
-
-/* =========================================================
-   APP
-========================================================= */
-
-#appWrap{
-    padding:25px 20px 70px;
-}
-
-.letterhead{
-    max-width:1100px;
-    margin:auto;
-    margin-bottom:25px;
-
-    display:flex;
-    align-items:center;
-    gap:15px;
-
-    padding:15px 5px;
-
-    border-bottom:2px solid var(--ink);
-}
-
-.seal{
-    width:52px;
-    height:52px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    flex:0 0 52px;
-
-    border-radius:50%;
-
-    background:linear-gradient(
-        135deg,
-        #D1333A,
-        #650F18
-    );
-
-    color:white;
-
-    font-family:'Source Serif 4',serif;
-    font-weight:bold;
-    font-size:1.5rem;
-}
-
-.letterhead-text h1{
-    font-family:'Source Serif 4',serif;
-    font-size:1.7rem;
-}
-
-.letterhead-text p{
-    color:var(--ink-soft);
-    text-transform:uppercase;
-    font-size:.75rem;
-    letter-spacing:1px;
-}
-
-.letterhead-meta{
-    margin-left:auto;
-    text-align:right;
-}
-
-.user-chip{
-    display:flex;
-    align-items:center;
-    justify-content:flex-end;
-    gap:7px;
-    font-size:.8rem;
-}
-
-.role-pill{
-    padding:3px 8px;
-    border-radius:99px;
-    font-size:.63rem;
-    font-weight:bold;
-    text-transform:uppercase;
-}
-
-.role-pill.professor{
-    background:#E9D8DB;
-    color:#74131C;
-}
-
-.role-pill.admin{
-    background:#E5E1E1;
-    color:#222;
-}
-
-.role-pill.superadmin{
-    background:#F4E2B9;
-    color:#75500D;
-}
-
-.btn-sair{
-    margin-top:5px;
-    padding:4px 10px;
-
-    background:var(--red-bg);
-    color:var(--red);
-
-    border:1px solid var(--red);
-    border-radius:6px;
-
-    cursor:pointer;
-}
-
-/* =========================================================
-   LAYOUT
-========================================================= */
-
-.layout{
-    max-width:1100px;
-    margin:auto;
-
-    display:grid;
-    grid-template-columns:1.4fr 1fr;
-    gap:22px;
-}
-
-.layout.single{
-    grid-template-columns:1fr;
-    max-width:760px;
-}
-
-.layout.admin{
-    grid-template-columns:1fr;
-    max-width:1100px;
-}
-
-.card{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    box-shadow:var(--shadow-1);
-}
-
-.form-card{
-    padding:25px;
-}
-
-.sidebar-card{
-    padding:22px;
-}
-
-.section-label{
-    display:flex;
-    align-items:center;
-    gap:10px;
-
-    margin-bottom:20px;
-    padding-bottom:13px;
-
-    border-bottom:1px solid var(--line);
-}
-
-.section-label .num{
-    background:var(--primary-tint);
-    color:var(--primary);
-
-    padding:2px 7px;
-    border-radius:4px;
-
-    font-family:'IBM Plex Mono',monospace;
-}
-
-.section-label h2{
-    font-family:'Source Serif 4',serif;
-    font-size:1.2rem;
-}
-
-.field-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
-}
-
-.form-group{
-    margin-bottom:15px;
-}
-
-label{
-    display:block;
-
-    margin-bottom:6px;
-
-    color:var(--ink-soft);
-
-    font-size:.76rem;
-    font-weight:bold;
-    text-transform:uppercase;
-}
-
-input,
-textarea,
-select{
-    width:100%;
-    padding:11px 13px;
-
-    background:var(--card);
-    color:var(--ink);
-
-    border:1.5px solid var(--line);
-    border-radius:7px;
-
-    outline:none;
-}
-
-textarea{
-    min-height:100px;
-    resize:vertical;
-}
-
-input:focus,
-textarea:focus,
-select:focus{
-    border-color:var(--primary);
-    box-shadow:0 0 0 3px var(--primary-tint);
-}
-
-/* =========================================================
-   NÍVEIS DE OCORRÊNCIA
-========================================================= */
-
-.niveis{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-}
-
-.nivel{
-    position:relative;
-}
-
-.nivel input{
-    display:none;
-}
-
-.nivel label{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-
-    min-height:95px;
-
-    padding:12px;
-
-    border:2px solid var(--line);
-    border-radius:10px;
-
-    cursor:pointer;
-
-    text-align:center;
-    text-transform:none;
-
-    transition:.2s;
-}
-
-.nivel label:hover{
-    transform:translateY(-2px);
-}
-
-.nivel input:checked + label{
-    transform:scale(1.02);
-}
-
-.nivel-verde label{
-    color:var(--green);
-    background:var(--green-bg);
-}
-
-.nivel-verde input:checked + label{
-    border-color:var(--green);
-    box-shadow:0 0 0 3px rgba(33,135,57,.15);
-}
-
-.nivel-amarela label{
-    color:var(--yellow);
-    background:var(--yellow-bg);
-}
-
-.nivel-amarela input:checked + label{
-    border-color:var(--yellow);
-    box-shadow:0 0 0 3px rgba(168,121,0,.15);
-}
-
-.nivel-vermelha label{
-    color:var(--red);
-    background:var(--red-bg);
-}
-
-.nivel-vermelha input:checked + label{
-    border-color:var(--red);
-    box-shadow:0 0 0 3px rgba(192,57,43,.15);
-}
-
-.nivel-icon{
-    font-size:1.8rem;
-    margin-bottom:4px;
-}
-
-.nivel-title{
-    font-weight:bold;
-}
-
-.nivel-desc{
-    font-size:.68rem;
-    opacity:.8;
-}
-
-#btnSubmit{
-    width:100%;
-    padding:14px;
-
-    border:1px solid var(--primary-deep);
-    border-radius:8px;
-
-    background:var(--primary);
-    color:white;
-
-    font-weight:bold;
-    cursor:pointer;
-}
-
-#btnSubmit:hover{
-    background:var(--primary-deep);
-}
-
-/* =========================================================
-   ESTATÍSTICAS
-========================================================= */
-
-.stats-row{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-    margin-bottom:15px;
-}
-
-.stats-row.four{
-    grid-template-columns:repeat(4,1fr);
-}
-
-.stat{
-    padding:13px;
-
-    border:1px solid var(--line);
-    border-radius:8px;
-
-    background:var(--paper-deep);
-}
-
-.stat-num{
-    font-family:'Source Serif 4',serif;
-    font-size:1.6rem;
-    font-weight:bold;
-}
-
-.stat-label{
-    color:var(--ink-soft);
-    font-size:.65rem;
-    text-transform:uppercase;
-}
-
-.stat.green .stat-num{
-    color:var(--green);
-}
-
-.stat.yellow .stat-num{
-    color:var(--yellow);
-}
-
-.stat.red .stat-num{
-    color:var(--red);
+  --paper:#111111; --paper-deep:#1B1919; --card:#211F1F;
+  --ink:#F3F1EF; --ink-soft:#B9B2AF; --line:#3A3535;
+  --primary:#D33A46; --primary-deep:#FF7B84; --primary-tint:#421D21;
+  --green:#61C878; --green-bg:#17341F;
+  --yellow:#FFD15C; --yellow-bg:#3D3312;
+  --red:#FF6B5D; --red-bg:#401C19;
+}
+
+/* ===================== RESET ===================== */
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;line-height:1.5;transition:.25s}
+.hidden{display:none!important}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:3px solid var(--primary);outline-offset:2px}
+
+/* ===================== CAPA ===================== */
+.capa-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;color:#fff;
+  background:radial-gradient(900px 600px at 50% 0%,rgba(179,39,45,.35),transparent 60%),
+  linear-gradient(160deg,#060505 0%,#120E0E 26%,#2C0C10 55%,#6E141C 82%,#0E0B0B 100%)}
+.capa-content{max-width:500px}
+.capa-seal{width:100px;height:100px;margin:auto;margin-bottom:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:'Source Serif 4',serif;font-size:3rem;font-weight:bold;
+  background:radial-gradient(circle at 32% 26%,#E2333B,#A3202B 45%,#650F18);
+  border:3px solid rgba(255,255,255,.25);box-shadow:0 18px 40px rgba(0,0,0,.55)}
+.capa-kicker{text-transform:uppercase;letter-spacing:3px;font-size:.72rem;color:#E2858B;font-weight:bold}
+.capa-content h1{font-family:'Source Serif 4',serif;font-size:3.3rem;margin-top:8px}
+.capa-accent{width:55px;height:3px;background:#E2333B;margin:15px auto}
+.capa-tagline{font-size:1.05rem;line-height:1.7;color:#eee}
+.capa-btn{margin-top:32px;padding:15px 45px;border:none;border-radius:10px;background:linear-gradient(90deg,#D1333A,#7A1420);color:#fff;font-size:1rem;font-weight:bold;cursor:pointer;transition:.2s}
+.capa-btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.capa-footer{margin-top:28px;font-size:.7rem;letter-spacing:2px;opacity:.5}
+
+/* ===================== LOGIN ===================== */
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+  background:radial-gradient(800px 500px at 50% 0%,rgba(179,39,45,.3),transparent 60%),
+  linear-gradient(150deg,#090707,#171212 24%,#350D12 56%,#7A1420 84%,#100C0C)}
+.login-card{width:100%;max-width:410px;padding:34px 30px;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);border-radius:18px;backdrop-filter:blur(18px);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.login-seal{width:65px;height:65px;margin:auto;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,#E2333B,#650F18);font-family:'Source Serif 4',serif;font-size:1.8rem;font-weight:bold}
+.login-card h1{text-align:center;font-family:'Source Serif 4',serif;font-size:1.7rem;margin-top:12px}
+.login-sub{text-align:center;font-size:.75rem;text-transform:uppercase;letter-spacing:1.5px;opacity:.7;margin-bottom:22px}
+.role-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;padding:4px;background:rgba(0,0,0,.25);border-radius:9px;margin-bottom:20px}
+.role-tab{padding:9px 5px;border:none;border-radius:7px;background:transparent;color:#fff;opacity:.7;cursor:pointer;font-size:.78rem}
+.role-tab.active{background:#fff;color:#181414;opacity:1}
+.login-card label{display:block;font-size:.75rem;margin-bottom:6px;opacity:.75;color:#fff;text-transform:none;font-weight:normal}
+.login-card input{width:100%;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;outline:none}
+.login-card input:focus{border-color:#E2333B;box-shadow:none}
+.login-card input::placeholder{color:rgba(255,255,255,.45)}
+.login-group{margin-bottom:15px}
+.login-btn{width:100%;padding:13px;border:none;border-radius:8px;background:linear-gradient(90deg,#B3272D,#7A1420);color:#fff;font-weight:bold;cursor:pointer}
+.login-btn:hover{filter:brightness(1.12)}
+.login-hint{margin-top:17px;padding:11px;border:1px dashed rgba(255,255,255,.3);border-radius:8px;font-size:.7rem;text-align:center}
+#error-login{display:none;color:#FFD9D6;font-size:.8rem;margin-bottom:12px}
+#error-login.show{display:block}
+
+/* Captcha */
+.captcha-box{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+#captchaCanvas{flex:1;min-width:0;height:48px;border-radius:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);user-select:none}
+#captchaRefresh{width:44px;height:48px;border:none;border-radius:8px;background:rgba(255,255,255,.15);color:#fff;font-size:18px;cursor:pointer}
+#captchaRefresh:hover{background:rgba(255,255,255,.25)}
+#captchaInput{text-transform:uppercase;letter-spacing:4px;text-align:center;font-family:'IBM Plex Mono',monospace}
+
+/* ===================== APP ===================== */
+#appWrap{padding:25px 20px 70px}
+.letterhead{max-width:1100px;margin:auto;margin-bottom:25px;display:flex;align-items:center;gap:15px;padding:15px 5px;border-bottom:2px solid var(--ink)}
+.seal{width:52px;height:52px;display:flex;align-items:center;justify-content:center;flex:0 0 52px;border-radius:50%;background:linear-gradient(135deg,#D1333A,#650F18);color:#fff;font-family:'Source Serif 4',serif;font-weight:bold;font-size:1.5rem}
+.letterhead-text h1{font-family:'Source Serif 4',serif;font-size:1.7rem}
+.letterhead-text p{color:var(--ink-soft);text-transform:uppercase;font-size:.75rem;letter-spacing:1px}
+.letterhead-meta{margin-left:auto;text-align:right;margin-right:110px}
+.user-chip{display:flex;align-items:center;justify-content:flex-end;gap:7px;font-size:.8rem}
+.role-pill{padding:3px 8px;border-radius:99px;font-size:.63rem;font-weight:bold;text-transform:uppercase}
+.role-pill.professor{background:#E9D8DB;color:#74131C}
+.role-pill.admin{background:#E5E1E1;color:#222}
+.role-pill.superadmin{background:#F4E2B9;color:#75500D}
+.btn-sair{margin-top:5px;padding:4px 10px;background:var(--red-bg);color:var(--red);border:1px solid var(--red);border-radius:6px;cursor:pointer}
+
+/* ===================== LAYOUT ===================== */
+.layout{max-width:1100px;margin:auto;display:grid;grid-template-columns:1.4fr 1fr;gap:22px}
+.layout.single{grid-template-columns:1fr;max-width:760px}
+.layout.admin{grid-template-columns:1fr;max-width:1100px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-1)}
+.form-card{padding:25px}
+.sidebar-card{padding:22px}
+.section-label{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:13px;border-bottom:1px solid var(--line)}
+.section-label .num{background:var(--primary-tint);color:var(--primary);padding:2px 7px;border-radius:4px;font-family:'IBM Plex Mono',monospace}
+.section-label h2{font-family:'Source Serif 4',serif;font-size:1.2rem}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{margin-bottom:15px}
+label{display:block;margin-bottom:6px;color:var(--ink-soft);font-size:.76rem;font-weight:bold;text-transform:uppercase}
+input,textarea,select{width:100%;padding:11px 13px;background:var(--card);color:var(--ink);border:1.5px solid var(--line);border-radius:7px;outline:none}
+textarea{min-height:100px;resize:vertical}
+input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-tint)}
+
+/* ===================== NÍVEIS ===================== */
+.niveis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.nivel{position:relative}
+.nivel input{display:none}
+.nivel label{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:95px;padding:12px;border:2px solid var(--line);border-radius:10px;cursor:pointer;text-align:center;text-transform:none;transition:.2s;margin-bottom:0}
+.nivel label:hover{transform:translateY(-2px)}
+.nivel input:checked + label{transform:scale(1.02)}
+.nivel-verde label{color:var(--green);background:var(--green-bg)}
+.nivel-verde input:checked + label{border-color:var(--green);box-shadow:0 0 0 3px rgba(33,135,57,.15)}
+.nivel-amarela label{color:var(--yellow);background:var(--yellow-bg)}
+.nivel-amarela input:checked + label{border-color:var(--yellow);box-shadow:0 0 0 3px rgba(168,121,0,.15)}
+.nivel-vermelha label{color:var(--red);background:var(--red-bg)}
+.nivel-vermelha input:checked + label{border-color:var(--red);box-shadow:0 0 0 3px rgba(192,57,43,.15)}
+.nivel-icon{font-size:1.8rem;margin-bottom:4px}
+.nivel-title{font-weight:bold}
+.nivel-desc{font-size:.68rem;opacity:.8}
+#btnSubmit{width:100%;padding:14px;border:1px solid var(--primary-deep);border-radius:8px;background:var(--primary);color:#fff;font-weight:bold;cursor:pointer}
+#btnSubmit:hover{background:var(--primary-deep)}
+
+/* ===================== ESTATÍSTICAS ===================== */
+.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:15px}
+.stats-row.four{grid-template-columns:repeat(4,1fr)}
+.stat{padding:13px;border:1px solid var(--line);border-radius:8px;background:var(--paper-deep)}
+.stat-num{font-family:'Source Serif 4',serif;font-size:1.6rem;font-weight:bold}
+.stat-label{color:var(--ink-soft);font-size:.65rem;text-transform:uppercase}
+.stat.green .stat-num{color:var(--green)}
+.stat.yellow .stat-num{color:var(--yellow)}
+.stat.red .stat-num{color:var(--red)}
+
+/* ===================== HISTÓRICO ===================== */
+.historico h3{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.btn-limpar{padding:4px 9px;background:var(--red-bg);color:var(--red);border:1px solid var(--red);border-radius:5px;cursor:pointer}
+.historico-lista{max-height:470px;overflow:auto;display:flex;flex-direction:column;gap:8px}
+.historico-vazio{padding:25px 10px;text-align:center;border:1px dashed var(--line);border-radius:8px;color:var(--ink-soft)}
+.historico-item{padding:12px;border:1px solid var(--line);border-left:4px solid var(--primary);border-radius:7px;background:var(--paper-deep);cursor:pointer;transition:.15s}
+.historico-item:hover{transform:translateX(2px)}
+.item-header{display:flex;justify-content:space-between;gap:8px;font-weight:bold}
+.item-sub,.item-data{color:var(--ink-soft);font-size:.75rem}
+.item-data{margin-top:3px;font-family:'IBM Plex Mono',monospace}
+.badge{padding:3px 8px;border-radius:99px;font-size:.63rem;white-space:nowrap}
+.badge-verde{background:var(--green-bg);color:var(--green)}
+.badge-amarela{background:var(--yellow-bg);color:var(--yellow)}
+.badge-vermelha{background:var(--red-bg);color:var(--red)}
+
+/* ===================== PAINEL ADMIN ===================== */
+.admin-panel{max-width:1100px;margin:auto}
+.admin-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.admin-title h2{font-family:'Source Serif 4',serif}
+.super-badge{padding:6px 10px;border-radius:7px;background:#F4E2B9;color:#75500D;font-size:.7rem;font-weight:bold}
+.admin-tools{display:grid;grid-template-columns:1fr 200px 150px;gap:10px;margin-bottom:15px}
+.admin-tools input,.admin-tools select,.admin-tools button{padding:11px}
+.btn-export{border:none;border-radius:7px;background:var(--primary);color:#fff;cursor:pointer;font-weight:bold}
+.registros-table{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{padding:11px 9px;border-bottom:1px solid var(--line);text-align:left;font-size:.78rem}
+th{color:var(--ink-soft);font-size:.68rem;text-transform:uppercase}
+td{color:var(--ink)}
+.btn-ver{padding:5px 9px;border:none;border-radius:5px;background:var(--primary-tint);color:var(--primary);cursor:pointer}
+.btn-del{padding:5px 9px;border:none;border-radius:5px;background:var(--red-bg);color:var(--red);cursor:pointer;margin-left:4px}
+
+/* ===================== RESULTADO ===================== */
+.detalhe-wrap{max-width:1100px;margin:22px auto}
+.resultado{display:none;padding:20px;border:1px dashed var(--primary);border-radius:9px;background:var(--primary-tint)}
+.resultado.show{display:block}
+.resultado h3{font-family:'Source Serif 4',serif;margin-bottom:12px}
+.resultado dl{display:grid;grid-template-columns:130px 1fr;gap:6px 12px}
+.resultado dt{color:var(--primary);font-size:.75rem;font-weight:bold;text-transform:uppercase}
+.resultado dd{color:var(--ink);white-space:pre-wrap}
+.nivel-detalhe{display:inline-block;padding:5px 10px;border-radius:99px;font-size:.72rem;font-weight:bold}
+.resultado-actions{display:flex;gap:8px;margin-top:17px;flex-wrap:wrap}
+.resultado-actions button{flex:1;min-width:110px;padding:10px;border:none;border-radius:7px;cursor:pointer;font-weight:bold}
+.btn-wa{background:#DCF3E7;color:#0E5C3B}
+.btn-copy{background:var(--paper-deep);color:var(--ink)}
+.btn-pdf{background:#F5E9D6;color:#8A611F}
+.protocolo-strip{text-align:center;color:var(--ink-soft);margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:.7rem}
+
+/* ===================== TOAST ===================== */
+#toast{position:fixed;top:18px;right:18px;padding:12px 18px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow-2);z-index:5000;transform:translateX(130%);transition:.3s;max-width:calc(100vw - 36px)}
+#toast.show{transform:translateX(0)}
+
+/* ===================== ACESSIBILIDADE ===================== */
+.accessibility{position:fixed;right:20px;top:20px;display:flex;gap:7px;z-index:4000}
+.accessibility button{width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:var(--card);color:var(--ink);cursor:pointer;font-size:18px;box-shadow:var(--shadow-2)}
+.accessibility button:hover{transform:scale(1.07)}
+
+/* ===================== CHAT ===================== */
+.chat-button{position:fixed;right:22px;bottom:22px;width:60px;height:60px;border:none;border-radius:50%;background:linear-gradient(135deg,#B3272D,#7A1420);color:#fff;font-size:25px;cursor:pointer;box-shadow:0 8px 25px rgba(0,0,0,.3);z-index:3000}
+.chat-box{position:fixed;right:22px;bottom:92px;width:350px;max-width:calc(100vw - 30px);height:480px;background:var(--card);border:1px solid var(--line);border-radius:15px;box-shadow:0 15px 45px rgba(0,0,0,.25);overflow:hidden;z-index:3000;display:none;flex-direction:column}
+.chat-box.show{display:flex}
+.chat-header{padding:15px;display:flex;align-items:center;gap:10px;color:#fff;background:linear-gradient(135deg,#B3272D,#7A1420)}
+.chat-avatar{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#fff;color:#8E1B26;font-weight:bold}
+.chat-header-info{flex:1}
+.chat-header-info strong{display:block}
+.chat-status{font-size:.68rem;opacity:.8}
+.chat-close{border:none;background:transparent;color:#fff;font-size:22px;cursor:pointer}
+.chat-messages{flex:1;padding:15px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;background:var(--paper)}
+.chat-message{max-width:85%;padding:10px 12px;border-radius:10px;font-size:.8rem}
+.chat-message.bot{align-self:flex-start;background:var(--card);border:1px solid var(--line)}
+.chat-message.user{align-self:flex-end;background:var(--primary);color:#fff}
+.chat-input{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);background:var(--card)}
+.chat-input input{flex:1}
+.chat-input button{padding:0 16px;border:none;border-radius:7px;background:var(--primary);color:#fff;font-weight:bold;cursor:pointer}
+
+/* ===================== RESPONSIVO ===================== */
+@media(max-width:860px){
+  .layout{grid-template-columns:1fr}
+  .stats-row.four{grid-template-columns:repeat(2,1fr)}
+  .admin-tools{grid-template-columns:1fr}
+  .letterhead{flex-wrap:wrap}
+  .letterhead-meta{margin-right:0}
+  .accessibility{top:auto;bottom:22px;right:92px}
+}
+@media(max-width:560px){
+  .capa-content h1{font-size:2.5rem}
+  .field-row{grid-template-columns:1fr}
+  .niveis{grid-template-columns:1fr}
+  .nivel label{min-height:70px}
+  .resultado dl{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ===================== IMPRESSÃO (PDF) ===================== */
+@media print{
+  body *{visibility:hidden}
+  #detalhe,#detalhe *{visibility:visible}
+  #detalhe{position:absolute;left:0;top:0;width:100%}
+  .resultado-actions{display:none}
 }
-
-/* =========================================================
-   HISTÓRICO
-========================================================= */
-
-.historico h3{
-    display:flex;
-    justify-content:space-between;
-
-    margin-bottom:12px;
-    padding-bottom:10px;
-
-    border-bottom:1px solid var(--line);
-}
-
-.btn-limpar{
-    padding:4px 9px;
-
-    background:var(--red-bg);
-    color:var(--red);
-
-    border:1px solid var(--red);
-    border-radius:5px;
-
-    cursor:pointer;
-}
-
-.historico-lista{
-    max-height:470px;
-    overflow:auto;
-
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-}
-
-.historico-vazio{
-    padding:25px 10px;
-    text-align:center;
-
-    border:1px dashed var(--line);
-    border-radius:8px;
-
-    color:var(--ink-soft);
-}
-
-.historico-item{
-    padding:12px;
-
-    border:1px solid var(--line);
-    border-left:4px solid var(--primary);
-
-    border-radius:7px;
-
-    background:var(--paper-deep);
-
-    cursor:pointer;
-}
-
-.historico-item:hover{
-    transform:translateX(2px);
-}
-
-.item-header{
-    display:flex;
-    justify-content:space-between;
-    gap:8px;
-
-    font-weight:bold;
-}
-
-.item-sub,
-.item-data{
-    color:var(--ink-soft);
-    font-size:.75rem;
-}
-
-.item-data{
-    margin-top:3px;
-    font-family:'IBM Plex Mono',monospace;
-}
-
-.badge{
-    padding:3px 8px;
-    border-radius:99px;
-    font-size:.63rem;
-    white-space:nowrap;
-}
-
-.badge-verde{
-    background:var(--green-bg);
-    color:var(--green);
-}
-
-.badge-amarela{
-    background:var(--yellow-bg);
-    color:var(--yellow);
-}
-
-.badge-vermelha{
-    background:var(--red-bg);
-    color:var(--red);
-}
-
-/* =========================================================
-   PAINEL SUPER ADMIN
-========================================================= */
-
-.admin-panel{
-    max-width:1100px;
-    margin:auto;
-}
-
-.admin-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    margin-bottom:18px;
-}
-
-.admin-title h2{
-    font-family:'Source Serif 4',serif;
-}
-
-.super-badge{
-    padding:6px 10px;
-    border-radius:7px;
-
-    background:#F4E2B9;
-    color:#75500D;
-
-    font-size:.7rem;
-    font-weight:bold;
-}
-
-.admin-tools{
-    display:grid;
-    grid-template-columns:1fr 200px 150px;
-    gap:10px;
-
-    margin-bottom:15px;
-}
-
-.admin-tools input,
-.admin-tools select,
-.admin-tools button{
-    padding:11px;
-}
-
-.btn-export{
-    border:none;
-    border-radius:7px;
-
-    background:var(--primary);
-    color:white;
-
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.registros-table{
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-th,
-td{
-    padding:11px 9px;
-    border-bottom:1px solid var(--line);
-
-    text-align:left;
-    font-size:.78rem;
-}
-
-th{
-    color:var(--ink-soft);
-    font-size:.68rem;
-    text-transform:uppercase;
-}
-
-td{
-    color:var(--ink);
-}
-
-.btn-ver{
-    padding:5px 9px;
-
-    border:none;
-    border-radius:5px;
-
-    background:var(--primary-tint);
-    color:var(--primary);
-
-    cursor:pointer;
-}
-
-/* =========================================================
-   RESULTADO
-========================================================= */
-
-.detalhe-wrap{
-    max-width:1100px;
-    margin:22px auto;
-}
-
-.resultado{
-    display:none;
-
-    padding:20px;
-
-    border:1px dashed var(--primary);
-    border-radius:9px;
-
-    background:var(--primary-tint);
-}
-
-.resultado.show{
-    display:block;
-}
-
-.resultado dl{
-    display:grid;
-    grid-template-columns:130px 1fr;
-    gap:6px 12px;
-}
-
-.resultado dt{
-    color:var(--primary);
-    font-size:.75rem;
-    font-weight:bold;
-    text-transform:uppercase;
-}
-
-.resultado dd{
-    color:var(--ink);
-}
-
-.nivel-detalhe{
-    display:inline-block;
-
-    padding:5px 10px;
-
-    border-radius:99px;
-
-    font-size:.72rem;
-    font-weight:bold;
-}
-
-.resultado-actions{
-    display:flex;
-    gap:8px;
-    margin-top:17px;
-}
-
-.resultado-actions button{
-    flex:1;
-
-    padding:10px;
-
-    border:none;
-    border-radius:7px;
-
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.btn-wa{
-    background:#DCF3E7;
-    color:#0E5C3B;
-}
-
-.btn-copy{
-    background:var(--paper-deep);
-    color:var(--ink);
-}
-
-.btn-pdf{
-    background:#F5E9D6;
-    color:#8A611F;
-}
-
-.protocolo-strip{
-    text-align:center;
-    color:var(--ink-soft);
-
-    margin-top:12px;
-
-    font-family:'IBM Plex Mono',monospace;
-    font-size:.7rem;
-}
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-#toast{
-    position:fixed;
-    top:18px;
-    right:18px;
-
-    padding:12px 18px;
-
-    background:var(--card);
-    color:var(--ink);
-
-    border:1px solid var(--line);
-    border-radius:8px;
-
-    box-shadow:var(--shadow-2);
-
-    z-index:5000;
-
-    transform:translateX(130%);
-    transition:.3s;
-}
-
-#toast.show{
-    transform:translateX(0);
-}
-
-/* =========================================================
-   BOTÕES DE ACESSIBILIDADE
-========================================================= */
-
-.accessibility{
-    position:fixed;
-    right:20px;
-    top:20px;
-
-    display:flex;
-    gap:7px;
-
-    z-index:4000;
-}
-
-.accessibility button{
-    width:42px;
-    height:42px;
-
-    border:1px solid var(--line);
-    border-radius:50%;
-
-    background:var(--card);
-    color:var(--ink);
-
-    cursor:pointer;
-
-    font-size:18px;
-
-    box-shadow:var(--shadow-2);
-}
-
-.accessibility button:hover{
-    transform:scale(1.07);
-}
-
-/* =========================================================
-   CHAT
-========================================================= */
-
-.chat-button{
-    position:fixed;
-    right:22px;
-    bottom:22px;
-
-    width:60px;
-    height:60px;
-
-    border:none;
-    border-radius:50%;
-
-    background:linear-gradient(
-        135deg,
-        #B3272D,
-        #7A1420
-    );
-
-    color:white;
-    font-size:25px;
-
-    cursor:pointer;
-
-    box-shadow:0 8px 25px rgba(0,0,0,.3);
-
-    z-index:3000;
-}
-
-.chat-box{
-    position:fixed;
-    right:22px;
-    bottom:92px;
-
-    width:350px;
-    max-width:calc(100vw - 30px);
-    height:480px;
-
-    background:var(--card);
-
-    border:1px solid var(--line);
-    border-radius:15px;
-
-    box-shadow:0 15px 45px rgba(0,0,0,.25);
-
-    overflow:hidden;
-
-    z-index:3000;
-
-    display:none;
-    flex-direction:column;
-}
-
-.chat-box.show{
-    display:flex;
-}
-
-.chat-header{
-    padding:15px;
-
-    display:flex;
-    align-items:center;
-    gap:10px;
-
-    color:white;
-
-    background:linear-gradient(
-        135deg,
-        #B3272D,
-        #7A1420
-    );
-}
-
-.chat-avatar{
-    width:38px;
-    height:38px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:50%;
-
-    background:white;
-    color:#8E1B26;
-
-    font-weight:bold;
-}
-
-.chat-header-info{
-    flex:1;
-}
-
-.chat-header-info strong{
-    display:block;
-}
-
-.chat-status{
-    font-size:.68rem;
-    opacity:.8;
-}
-
-.chat-close{
-    border:none;
-    background:transparent;
-    color:white;
-
-    font-size:22px;
-    cursor:pointer;
-}
-
-.chat-messages{
-    flex:1;
-
-    padding:15px;
-
-    overflow-y:auto;
-
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-
-    background:var(--paper);
-}
-
-.chat-message{
-    max-width:85%;
-
-    padding:10px 12px;
-
-    border-radius:10px;
-
-    font-size:.8rem;
-}
-
-.chat-message.bot{
-    align-self:flex-start;
-
-    background:var(--card);
-    border:1px solid var(--line);
-}
-
-.chat-message.user{
-    align-self:flex-end;
-
-    background:var(--primary);
-    color:white;
-}
-
-.chat-options{
-    padding:9px;
-
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px;
-
-    border-top:1px solid var(--line);
-}
-
-.chat-option{
-    padding:7px 10px;
-
-    border:1px solid var(--primary);
-    border-radius:20px;
-
-    background:var(--primary-tint);
-    color:var(--primary);
-
-    cursor:pointer;
-    font-size:.7rem;
-}
-
-.chat-input-area{
-    display:flex;
-    gap:6px;
-
-    padding:9px;
-
-    border-top:1px solid var(--line);
-}
-
-.chat-input{
-    flex:1;
-    padding:9px;
-
-    border:1px solid var(--line);
-    border-radius:8px;
-
-    background:var(--card);
-    color:var(--ink);
-}
-
-.chat-send{
-    width:40px;
-
-    border:none;
-    border-radius:8px;
-
-    background:var(--primary);
-    color:white;
-
-    cursor:pointer;
-}
-
-/* =========================================================
-   RESPONSIVO
-========================================================= */
-
-@media(max-width:900px){
-
-    .layout{
-        grid-template-columns:1fr;
-    }
-
-    .admin-tools{
-        grid-template-columns:1fr;
-    }
-
-}
-
-@media(max-width:600px){
-
-    .field-row{
-        grid-template-columns:1fr;
-    }
-
-    .niveis{
-        grid-template-columns:1fr;
-    }
-
-    .stats-row.four{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .letterhead{
-        align-items:flex-start;
-    }
-
-    .letterhead-meta{
-        font-size:.65rem;
-    }
-
-    .resultado dl{
-        grid-template-columns:1fr;
-    }
-
-    .resultado-actions{
-        flex-direction:column;
-    }
-
-    .accessibility{
-        top:10px;
-        right:10px;
-    }
-
-    .chat-box{
-        right:10px;
-        bottom:82px;
-        width:calc(100vw - 20px);
-    }
-
-    .capa-content h1{
-        font-size:2.4rem;
-    }
-
-}
-
 </style>
 </head>
-
 <body>
 
-<!-- =========================================================
-     ACESSIBILIDADE
-========================================================= -->
-
+<!-- ===================== ACESSIBILIDADE ===================== -->
 <div class="accessibility">
-
-    <button
-        id="btnTema"
-        title="Alternar modo claro/escuro">
-        🌙
-    </button>
-
-    <button
-        id="btnLibras"
-        title="Acessibilidade em Libras">
-        🤟
-    </button>
-
+  <button id="btnFonte" title="Aumentar fonte" aria-label="Alterar tamanho da fonte">A+</button>
+  <button id="btnTema" title="Modo escuro" aria-label="Alternar modo escuro">🌙</button>
 </div>
 
+<!-- ===================== CAPA ===================== -->
+<section id="capa" class="capa-screen">
+  <div class="capa-content">
+    <div class="capa-seal">A</div>
+    <div class="capa-kicker">Sistema de Ocorrência Escolar</div>
+    <h1>AcompanhAí</h1>
+    <div class="capa-accent"></div>
+    <p class="capa-tagline">Registre, acompanhe e comunique ocorrências escolares com rapidez, clareza e segurança.</p>
+    <button class="capa-btn" id="btnEntrar">Entrar no sistema</button>
+    <div class="capa-footer">ACOMPANHAR · REGISTRAR · PROTEGER</div>
+  </div>
+</section>
 
-<!-- =========================================================
-     CAPA
-========================================================= -->
+<!-- ===================== LOGIN ===================== -->
+<section id="login" class="login-screen hidden">
+  <div class="login-card">
+    <div class="login-seal">A</div>
+    <h1>AcompanhAí</h1>
+    <p class="login-sub">Acesso ao sistema</p>
 
-<div class="capa-screen" id="capaScreen">
-
-    <div class="capa-content">
-
-        <div class="capa-seal">
-            A
-        </div>
-
-        <div class="capa-kicker">
-            Sistema de Ocorrência Escolar
-        </div>
-
-        <h1>
-            AcompanhAí
-        </h1>
-
-        <div class="capa-accent"></div>
-
-        <p class="capa-tagline">
-            Do registro em sala à comunicação com a família —
-            uma gestão escolar mais simples, rápida e transparente.
-        </p>
-
-        <button
-            class="capa-btn"
-            id="btnComecar">
-
-            Começar
-
-        </button>
-
-        <div class="capa-footer">
-            Professores · Coordenação · Direção · Super Admin
-        </div>
-
+    <div class="role-tabs" id="roleTabs">
+      <button type="button" class="role-tab active" data-role="professor">Professor</button>
+      <button type="button" class="role-tab" data-role="admin">Admin</button>
+      <button type="button" class="role-tab" data-role="superadmin">Super Admin</button>
     </div>
 
+    <div class="login-group">
+      <label for="loginUser">Usuário</label>
+      <input id="loginUser" autocomplete="username" placeholder="Digite seu usuário">
+    </div>
+    <div class="login-group">
+      <label for="loginPass">Senha</label>
+      <input id="loginPass" type="password" autocomplete="current-password" placeholder="Digite sua senha">
+    </div>
+
+    <!-- CAPTCHA -->
+    <div class="login-group">
+      <label for="captchaInput">Digite o código da imagem</label>
+      <div class="captcha-box">
+        <canvas id="captchaCanvas" width="200" height="48" aria-label="Código do captcha"></canvas>
+        <button type="button" id="captchaRefresh" title="Gerar novo código" aria-label="Gerar novo código">↻</button>
+      </div>
+      <input id="captchaInput" autocomplete="off" maxlength="5" placeholder="Código">
+    </div>
+
+    <div id="error-login" role="alert"></div>
+    <button type="button" class="login-btn" id="btnLogin">Entrar</button>
+    <div class="login-hint" id="loginHint"></div>
+  </div>
+</section>
+
+<!-- ===================== APP ===================== -->
+<div id="appWrap" class="hidden">
+  <header class="letterhead">
+    <div class="seal">A</div>
+    <div class="letterhead-text">
+      <h1>AcompanhAí</h1>
+      <p>Sistema de Ocorrência Escolar</p>
+    </div>
+    <div class="letterhead-meta">
+      <div class="user-chip"><span id="userName"></span><span class="role-pill" id="rolePill"></span></div>
+      <button class="btn-sair" id="btnSair">Sair</button>
+    </div>
+  </header>
+
+  <!-- Professor -->
+  <main id="viewProfessor" class="layout hidden">
+    <section class="card form-card">
+      <div class="section-label"><span class="num">01</span><h2>Nova ocorrência</h2></div>
+
+      <div class="field-row">
+        <div class="form-group">
+          <label for="fAluno">Aluno</label>
+          <input id="fAluno" placeholder="Nome completo">
+        </div>
+        <div class="form-group">
+          <label for="fTurma">Turma</label>
+          <input id="fTurma" placeholder="Ex.: 2º B">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="form-group">
+          <label for="fData">Data</label>
+          <input id="fData" type="date">
+        </div>
+        <div class="form-group">
+          <label for="fLocal">Local</label>
+          <select id="fLocal">
+            <option>Sala de aula</option>
+            <option>Pátio</option>
+            <option>Corredor</option>
+            <option>Quadra</option>
+            <option>Refeitório</option>
+            <option>Outro</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Nível da ocorrência</label>
+        <div class="niveis">
+          <div class="nivel nivel-verde">
+            <input type="radio" name="nivel" id="nvVerde" value="verde" checked>
+            <label for="nvVerde"><span class="nivel-icon">🟢</span><span class="nivel-title">Leve</span><span class="nivel-desc">Orientação</span></label>
+          </div>
+          <div class="nivel nivel-amarela">
+            <input type="radio" name="nivel" id="nvAmarela" value="amarela">
+            <label for="nvAmarela"><span class="nivel-icon">🟡</span><span class="nivel-title">Moderada</span><span class="nivel-desc">Acompanhamento</span></label>
+          </div>
+          <div class="nivel nivel-vermelha">
+            <input type="radio" name="nivel" id="nvVermelha" value="vermelha">
+            <label for="nvVermelha"><span class="nivel-icon">🔴</span><span class="nivel-title">Grave</span><span class="nivel-desc">Ação imediata</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="fDesc">Descrição do ocorrido</label>
+        <textarea id="fDesc" placeholder="Descreva o que aconteceu, de forma objetiva."></textarea>
+      </div>
+      <div class="form-group">
+        <label for="fProv">Providências tomadas</label>
+        <textarea id="fProv" placeholder="Conversa com o aluno, contato com a família, encaminhamento…"></textarea>
+      </div>
+
+      <button id="btnSubmit">Registrar ocorrência</button>
+    </section>
+
+    <aside class="card sidebar-card">
+      <div class="section-label"><span class="num">02</span><h2>Resumo</h2></div>
+      <div class="stats-row" id="statsProf"></div>
+      <div class="historico">
+        <h3>Minhas ocorrências <button class="btn-limpar" id="btnLimpar">Limpar</button></h3>
+        <div class="historico-lista" id="histLista"></div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Admin / Super Admin -->
+  <main id="viewAdmin" class="layout admin hidden">
+    <section class="card form-card admin-panel" style="width:100%">
+      <div class="admin-title">
+        <h2 id="adminTitulo">Painel de ocorrências</h2>
+        <span class="super-badge hidden" id="superBadge">SUPER ADMIN</span>
+      </div>
+      <div class="stats-row four" id="statsAdmin"></div>
+      <div class="admin-tools">
+        <input id="fBusca" placeholder="Buscar por aluno, turma, professor ou protocolo">
+        <select id="fNivelFiltro">
+          <option value="">Todos os níveis</option>
+          <option value="verde">Leve</option>
+          <option value="amarela">Moderada</option>
+          <option value="vermelha">Grave</option>
+        </select>
+        <button class="btn-export" id="btnExport">Exportar CSV</button>
+      </div>
+      <div class="registros-table">
+        <table>
+          <thead>
+            <tr><th>Protocolo</th><th>Data</th><th>Aluno</th><th>Turma</th><th>Nível</th><th>Professor</th><th>Ações</th></tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Detalhe -->
+  <div class="detalhe-wrap">
+    <div class="resultado" id="detalhe"></div>
+  </div>
 </div>
 
+<div id="toast" role="status"></div>
 
-<!-- =========================================================
-     LOGIN
-========================================================= -->
-
-<div
-    class="login-screen hidden"
-    id="loginScreen">
-
-    <div class="login-card">
-
-        <div class="login-seal">
-            A
-        </div>
-
-        <h1>
-            AcompanhAí
-        </h1>
-
-        <p class="login-sub">
-            Sistema de Ocorrência Escolar
-        </p>
-
-
-        <div
-            class="role-tabs"
-            id="roleTabs">
-
-            <button
-                class="role-tab active"
-                data-role="professor">
-
-                Professor
-
-            </button>
-
-            <button
-                class="role-tab"
-                data-role="admin">
-
-                Administrador
-
-            </button>
-
-            <button
-                class="role-tab"
-                data-role="superadmin">
-
-                Super Admin
-
-            </button>
-
-        </div>
-
-
-        <form id="loginForm">
-
-            <div class="login-group">
-
-                <label>
-                    Usuário
-                </label>
-
-                <input
-                    type="text"
-                    id="loginUser"
-                    placeholder="Digite seu usuário">
-
-            </div>
-
-
-            <div class="login-group">
-
-                <label>
-                    Senha
-                </label>
-
-                <input
-                    type="password"
-                    id="loginPass"
-                    placeholder="Digite sua senha">
-
-            </div>
-
-
-            <div id="error-login">
-                Usuário ou senha inválidos para este perfil.
-            </div>
-
-
-            <button
-                class="login-btn"
-                type="submit">
-
-                Entrar
-
-            </button>
-
-        </form>
-
-
-        <div
-            class="login-hint"
-            id="loginHint">
-
-            Acesso de demonstração —
-            <strong>professor</strong> /
-            <strong>professor123</strong>
-
-        </div>
-
-    </div>
-
+<!-- ===================== CHAT ===================== -->
+<button class="chat-button" id="chatBtn" aria-label="Abrir assistente">💬</button>
+<div class="chat-box" id="chatBox">
+  <div class="chat-header">
+    <div class="chat-avatar">A</div>
+    <div class="chat-header-info"><strong>Assistente AcompanhAí</strong><span class="chat-status">Tire suas dúvidas</span></div>
+    <button class="chat-close" id="chatClose" aria-label="Fechar chat">×</button>
+  </div>
+  <div class="chat-messages" id="chatMsgs"></div>
+  <div class="chat-input">
+    <input id="chatInput" placeholder="Digite sua dúvida…">
+    <button id="chatSend">Enviar</button>
+  </div>
 </div>
-
-
-<!-- =========================================================
-     APP
-========================================================= -->
-
-<div
-    id="appWrap"
-    class="hidden">
-
-    <div class="letterhead">
-
-        <div class="seal">
-            A
-        </div>
-
-        <div class="letterhead-text">
-
-            <h1>
-                AcompanhAí
-            </h1>
-
-            <p>
-                Registro de Ocorrência Escolar
-            </p>
-
-        </div>
-
-        <div class="letterhead-meta">
-
-            <div id="dataAtual"></div>
-
-            <div class="user-chip">
-
-                <strong id="userNome"></strong>
-
-                <span
-                    class="role-pill"
-                    id="userRoleBadge">
-                </span>
-
-            </div>
-
-            <button
-                class="btn-sair"
-                id="btnSair">
-
-                Sair
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         PROFESSOR
-    ====================================================== -->
-
-    <div
-        class="layout"
-        id="layout">
-
-        <div
-            class="card form-card"
-            id="formCard">
-
-            <form id="formOcorrencia">
-
-                <div class="section-label">
-
-                    <span class="num">
-                        01
-                    </span>
-
-                    <h2>
-                        Identificação
-                    </h2>
-
-                </div>
-
-
-                <div class="field-row">
-
-                    <div class="form-group">
-
-                        <label>
-                            Professor
-                        </label>
-
-                        <input
-                            type="text"
-                            id="professor"
-                            placeholder="Nome do professor">
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label>
-                            Turma
-                        </label>
-
-                        <input
-                            type="text"
-                            id="turma"
-                            placeholder="Ex: 2º Ano A">
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Aluno
-                    </label>
-
-                    <input
-                        type="text"
-                        id="aluno"
-                        placeholder="Nome do aluno">
-
-                </div>
-
-
-                <div class="section-label">
-
-                    <span class="num">
-                        02
-                    </span>
-
-                    <h2>
-                        Ocorrência
-                    </h2>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Tipo de Ocorrência
-                    </label>
-
-                    <select id="tipo">
-
-                        <option value="">
-                            Selecione...
-                        </option>
-
-                        <option>
-                            Atraso
-                        </option>
-
-                        <option>
-                            Falta
-                        </option>
-
-                        <option>
-                            Desrespeito
-                        </option>
-
-                        <option>
-                            Tarefa não entregue
-                        </option>
-
-                        <option>
-                            Uso de celular
-                        </option>
-
-                        <option>
-                            Outro
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- NÍVEL -->
-
-                <div class="form-group">
-
-                    <label>
-                        Nível da Ocorrência
-                    </label>
-
-                    <div class="niveis">
-
-                        <div class="nivel nivel-verde">
-
-                            <input
-                                type="radio"
-                                name="nivel"
-                                id="nivelVerde"
-                                value="Verde">
-
-                            <label for="nivelVerde">
-
-                                <span class="nivel-icon">
-                                    🟢
-                                </span>
-
-                                <span class="nivel-title">
-                                    Verde
-                                </span>
-
-                                <span class="nivel-desc">
-                                    Baixa gravidade
-                                </span>
-
-                            </label>
-
-                        </div>
-
-
-                        <div class="nivel nivel-amarela">
-
-                            <input
-                                type="radio"
-                                name="nivel"
-                                id="nivelAmarela"
-                                value="Amarela">
-
-                            <label for="nivelAmarela">
-
-                                <span class="nivel-icon">
-                                    🟡
-                                </span>
-
-                                <span class="nivel-title">
-                                    Amarela
-                                </span>
-
-                                <span class="nivel-desc">
-                                    Média gravidade
-                                </span>
-
-                            </label>
-
-                        </div>
-
-
-                        <div class="nivel nivel-vermelha">
-
-                            <input
-                                type="radio"
-                                name="nivel"
-                                id="nivelVermelha"
-                                value="Vermelha">
-
-                            <label for="nivelVermelha">
-
-                                <span class="nivel-icon">
-                                    🔴
-                                </span>
-
-                                <span class="nivel-title">
-                                    Vermelha
-                                </span>
-
-                                <span class="nivel-desc">
-                                    Alta gravidade
-                                </span>
-
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Descrição
-                    </label>
-
-                    <textarea
-                        id="descricao"
-                        placeholder="Detalhes da ocorrência">
-                    </textarea>
-
-                </div>
-
-
-                <div class="section-label">
-
-                    <span class="num">
-                        03
-                    </span>
-
-                    <h2>
-                        Contato do Responsável
-                    </h2>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        WhatsApp
-                    </label>
-
-                    <input
-                        type="tel"
-                        id="celular"
-                        placeholder="(11) 99999-8888">
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Email opcional
-                    </label>
-
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="responsavel@email.com">
-
-                </div>
-
-
-                <button
-                    id="btnSubmit"
-                    type="submit">
-
-                    Registrar Ocorrência
-
-                </button>
-
-            </form>
-
-        </div>
-
-
-        <!-- HISTÓRICO -->
-
-        <div
-            class="card sidebar-card"
-            id="sidebarCard">
-
-            <div class="stats-row">
-
-                <div class="stat">
-
-                    <div
-                        class="stat-num"
-                        id="statTotal">
-
-                        0
-
-                    </div>
-
-                    <div class="stat-label">
-                        Total
-                    </div>
-
-                </div>
-
-
-                <div class="stat">
-
-                    <div
-                        class="stat-num"
-                        id="statHoje">
-
-                        0
-
-                    </div>
-
-                    <div class="stat-label">
-                        Hoje
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="historico">
-
-                <h3>
-
-                    <span>
-                        Histórico
-                    </span>
-
-                    <button
-                        class="btn-limpar"
-                        id="btnLimparHistorico">
-
-                        Limpar
-
-                    </button>
-
-                </h3>
-
-
-                <div
-                    class="historico-lista"
-                    id="historicoLista">
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         SUPER ADMIN
-    ====================================================== -->
-
-    <div
-        id="superAdminPanel"
-        class="admin-panel hidden">
-
-        <div class="admin-title">
-
-            <h2>
-                Painel de Super Admin
-            </h2>
-
-            <span class="super-badge">
-                ACESSO TOTAL
-            </span>
-
-        </div>
-
-
-        <div class="stats-row four">
-
-            <div class="stat">
-
-                <div
-                    class="stat-num"
-                    id="adminTotal">
-
-                    0
-
-                </div>
-
-                <div class="stat-label">
-                    Total
-                </div>
-
-            </div>
-
-
-            <div class="stat green">
-
-                <div
-                    class="stat-num"
-                    id="adminVerde">
-
-                    0
-
-                </div>
-
-                <div class="stat-label">
-                    Verdes
-                </div>
-
-            </div>
-
-
-            <div class="stat yellow">
-
-                <div
-                    class="stat-num"
-                    id="adminAmarela">
-
-                    0
-
-                </div>
-
-                <div class="stat-label">
-                    Amarelas
-                </div>
-
-            </div>
-
-
-            <div class="stat red">
-
-                <div
-                    class="stat-num"
-                    id="adminVermelha">
-
-                    0
-
-                </div>
-
-                <div class="stat-label">
-                    Vermelhas
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="card" style="padding:20px;">
-
-            <div class="admin-tools">
-
-                <input
-                    type="text"
-                    id="buscaAdmin"
-                    placeholder="🔎 Buscar aluno, professor ou protocolo">
-
-                <select id="filtroNivel">
-
-                    <option value="todos">
-                        Todos os níveis
-                    </option>
-
-                    <option value="Verde">
-                        🟢 Verde
-                    </option>
-
-                    <option value="Amarela">
-                        🟡 Amarela
-                    </option>
-
-                    <option value="Vermelha">
-                        🔴 Vermelha
-                    </option>
-
-                </select>
-
-                <button
-                    class="btn-export"
-                    id="btnExportar">
-
-                    Exportar CSV
-
-                </button>
-
-            </div>
-
-
-            <div class="registros-table">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Protocolo
-                            </th>
-
-                            <th>
-                                Aluno
-                            </th>
-
-                            <th>
-                                Turma
-                            </th>
-
-                            <th>
-                                Professor
-                            </th>
-
-                            <th>
-                                Nível
-                            </th>
-
-                            <th>
-                                Tipo
-                            </th>
-
-                            <th>
-                                Data
-                            </th>
-
-                            <th>
-                                Ação
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody
-                        id="adminTabela">
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         RESULTADO
-    ====================================================== -->
-
-    <div class="detalhe-wrap">
-
-        <div
-            class="resultado"
-            id="resultado">
-
-            <div id="resultadoConteudo"></div>
-
-            <div class="resultado-actions">
-
-                <button
-                    class="btn-wa"
-                    onclick="enviarWhatsApp()">
-
-                    📱 WhatsApp
-
-                </button>
-
-                <button
-                    class="btn-copy"
-                    onclick="copiarOcorrencia()">
-
-                    Copiar
-
-                </button>
-
-                <button
-                    class="btn-pdf"
-                    onclick="baixarPDF()">
-
-                    PDF
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div
-            class="protocolo-strip"
-            id="protocolo">
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================================
-     CHAT
-========================================================= -->
-
-<button
-    class="chat-button"
-    id="chatButton">
-
-    💬
-
-</button>
-
-
-<div
-    class="chat-box"
-    id="chatBox">
-
-    <div class="chat-header">
-
-        <div class="chat-avatar">
-            A
-        </div>
-
-        <div class="chat-header-info">
-
-            <strong>
-                Suporte AcompanhAí
-            </strong>
-
-            <span class="chat-status">
-                ● Atendimento automático
-            </span>
-
-        </div>
-
-        <button
-            class="chat-close"
-            id="chatClose">
-
-            ×
-
-        </button>
-
-    </div>
-
-
-    <div
-        class="chat-messages"
-        id="chatMessages">
-
-        <div class="chat-message bot">
-
-            Olá! 👋
-
-            <br><br>
-
-            Sou o assistente do
-            <strong>AcompanhAí</strong>.
-
-            <br><br>
-
-            Como posso ajudar?
-
-        </div>
-
-    </div>
-
-
-    <div class="chat-options">
-
-        <button
-            class="chat-option"
-            onclick="responderChat('registrar')">
-
-            Registrar ocorrência
-
-        </button>
-
-        <button
-            class="chat-option"
-            onclick="responderChat('whatsapp')">
-
-            WhatsApp
-
-        </button>
-
-        <button
-            class="chat-option"
-            onclick="responderChat('pdf')">
-
-            PDF
-
-        </button>
-
-        <button
-            class="chat-option"
-            onclick="responderChat('login')">
-
-            Login
-
-        </button>
-
-    </div>
-
-
-    <div class="chat-input-area">
-
-        <input
-            class="chat-input"
-            id="chatInput"
-            placeholder="Digite sua dúvida...">
-
-        <button
-            class="chat-send"
-            id="chatSend">
-
-            ➤
-
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- TOAST -->
-
-<div id="toast">
-
-    <span id="toastMsg"></span>
-
-</div>
-
 
 <script>
+/* =========================================================
+   DADOS E UTILITÁRIOS
+========================================================= */
+const USERS = {
+  professor:  { user:"professor", pass:"1234", nome:"Prof. Carlos Mendes", label:"Professor" },
+  admin:      { user:"admin",     pass:"1234", nome:"Coordenação",          label:"Admin" },
+  superadmin: { user:"super",     pass:"1234", nome:"Direção Geral",        label:"Super Admin" }
+};
+const NIVEL = {
+  verde:    { nome:"Leve",     cls:"badge-verde",    emoji:"🟢" },
+  amarela:  { nome:"Moderada", cls:"badge-amarela",  emoji:"🟡" },
+  vermelha: { nome:"Grave",    cls:"badge-vermelha", emoji:"🔴" }
+};
+const KEY = "acompanhai_registros";
+const $ = id => document.getElementById(id);
+let roleSel = "professor";
+let sessao = null;
+let captchaCode = "";
+
+function esc(s){
+  return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function carregar(){
+  try{ return JSON.parse(localStorage.getItem(KEY)) || []; }catch(e){ return []; }
+}
+function salvar(lista){
+  try{ localStorage.setItem(KEY, JSON.stringify(lista)); }catch(e){}
+}
+function toast(msg){
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove("show"), 2800);
+}
+function fmtData(iso){
+  if(!iso) return "";
+  const [y,m,d] = iso.split("-");
+  return `${d}/${m}/${y}`;
+}
 
 /* =========================================================
-   ELEMENTOS
+   CAPTCHA
 ========================================================= */
+function gerarCaptcha(){
+  const c = $("captchaCanvas");
+  const ctx = c.getContext("2d");
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  captchaCode = Array.from({length:5}, () => chars[Math.floor(Math.random()*chars.length)]).join("");
 
-const capaScreen =
-    document.getElementById('capaScreen');
+  ctx.clearRect(0,0,c.width,c.height);
 
-const loginScreen =
-    document.getElementById('loginScreen');
+  for(let i=0;i<7;i++){
+    ctx.strokeStyle = `rgba(255,255,255,${0.15+Math.random()*0.3})`;
+    ctx.lineWidth = 1 + Math.random();
+    ctx.beginPath();
+    ctx.moveTo(Math.random()*c.width, Math.random()*c.height);
+    ctx.bezierCurveTo(Math.random()*c.width,Math.random()*c.height,Math.random()*c.width,Math.random()*c.height,Math.random()*c.width,Math.random()*c.height);
+    ctx.stroke();
+  }
+  for(let i=0;i<40;i++){
+    ctx.fillStyle = `rgba(255,255,255,${Math.random()*0.4})`;
+    ctx.fillRect(Math.random()*c.width, Math.random()*c.height, 2, 2);
+  }
 
-const appWrap =
-    document.getElementById('appWrap');
-
-const formCard =
-    document.getElementById('formCard');
-
-const sidebarCard =
-    document.getElementById('sidebarCard');
-
-const layout =
-    document.getElementById('layout');
-
-const superAdminPanel =
-    document.getElementById('superAdminPanel');
-
+  ctx.font = "bold 28px 'IBM Plex Mono', monospace";
+  ctx.textBaseline = "middle";
+  [...captchaCode].forEach((ch,i) => {
+    ctx.save();
+    ctx.translate(18 + i*34, 24 + (Math.random()*8-4));
+    ctx.rotate((Math.random()-0.5)*0.55);
+    ctx.fillStyle = "#fff";
+    ctx.fillText(ch, 0, 0);
+    ctx.restore();
+  });
+  $("captchaInput").value = "";
+}
+function validarCaptcha(){
+  const v = $("captchaInput").value.trim().toUpperCase();
+  return v === captchaCode;
+}
 
 /* =========================================================
-   CAPA
+   NAVEGAÇÃO: CAPA -> LOGIN -> APP
 ========================================================= */
-
-document
-.getElementById('btnComecar')
-.addEventListener('click',()=>{
-
-    capaScreen.classList.add('hidden');
-
-    loginScreen.classList.remove('hidden');
-
-});
-
-
-/* =========================================================
-   USUÁRIOS
-========================================================= */
-
-const USUARIOS = {
-
-    professor:{
-        usuario:'professor',
-        senha:'professor123',
-        role:'professor',
-        nome:'Professor(a)'
-    },
-
-    admin:{
-        usuario:'admin',
-        senha:'admin123',
-        role:'admin',
-        nome:'Administrador(a)'
-    },
-
-    superadmin:{
-        usuario:'superadmin',
-        senha:'super123',
-        role:'superadmin',
-        nome:'Super Administrador(a)'
-    }
-
+$("btnEntrar").onclick = () => {
+  $("capa").classList.add("hidden");
+  $("login").classList.remove("hidden");
+  gerarCaptcha();
+  $("loginUser").focus();
 };
 
-
-let perfilSelecionado='professor';
-
-let sessaoAtual=null;
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-const roleTabs =
-    document.getElementById('roleTabs');
-
-const loginHint =
-    document.getElementById('loginHint');
-
-const loginForm =
-    document.getElementById('loginForm');
-
-const loginError =
-    document.getElementById('error-login');
-
-
-roleTabs.addEventListener('click',(e)=>{
-
-    const btn =
-        e.target.closest('.role-tab');
-
-    if(!btn) return;
-
-    perfilSelecionado =
-        btn.dataset.role;
-
-    document
-    .querySelectorAll('.role-tab')
-    .forEach(b=>{
-
-        b.classList.toggle(
-            'active',
-            b===btn
-        );
-
-    });
-
-
-    const u =
-        USUARIOS[perfilSelecionado];
-
-    loginHint.innerHTML =
-        `Acesso de demonstração — 
-        <strong>${u.usuario}</strong> /
-        <strong>${u.senha}</strong>`;
-
-    loginError.classList.remove('show');
-
+function mostrarHint(){
+  const u = USERS[roleSel];
+  $("loginHint").innerHTML = `Demonstração: usuário <b>${esc(u.user)}</b> · senha <b>${esc(u.pass)}</b>`;
+}
+document.querySelectorAll(".role-tab").forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll(".role-tab").forEach(x => x.classList.remove("active"));
+    b.classList.add("active");
+    roleSel = b.dataset.role;
+    mostrarHint();
+    $("error-login").classList.remove("show");
+  };
 });
+mostrarHint();
 
+function erroLogin(msg){
+  const e = $("error-login");
+  e.textContent = msg;
+  e.classList.add("show");
+}
 
-loginForm.addEventListener('submit',(e)=>{
-
-    e.preventDefault();
-
-    const usuario =
-        document.getElementById('loginUser').value.trim();
-
-    const senha =
-        document.getElementById('loginPass').value;
-
-    const u =
-        USUARIOS[perfilSelecionado];
-
-
-    if(
-        usuario===u.usuario &&
-        senha===u.senha
-    ){
-
-        sessaoAtual={
-            role:u.role,
-            nome:u.nome
-        };
-
-        entrarNoApp();
-
-    }else{
-
-        loginError.classList.add('show');
-
-    }
-
+$("btnLogin").onclick = fazerLogin;
+["loginUser","loginPass","captchaInput"].forEach(id => {
+  $(id).addEventListener("keydown", e => { if(e.key === "Enter") fazerLogin(); });
 });
+$("captchaRefresh").onclick = gerarCaptcha;
 
+function fazerLogin(){
+  const u = USERS[roleSel];
+  const user = $("loginUser").value.trim();
+  const pass = $("loginPass").value;
 
-/* =========================================================
-   ENTRAR NO APP
-========================================================= */
+  if(!user || !pass){ erroLogin("Preencha usuário e senha."); return; }
+  if(!validarCaptcha()){
+    erroLogin("Código do captcha incorreto. Tente novamente.");
+    gerarCaptcha();
+    return;
+  }
+  if(user !== u.user || pass !== u.pass){
+    erroLogin("Usuário ou senha inválidos para este perfil.");
+    gerarCaptcha();
+    return;
+  }
 
-function entrarNoApp(){
-
-    document
-    .getElementById('userNome')
-    .textContent=
-        sessaoAtual.nome;
-
-
-    const badge =
-        document.getElementById('userRoleBadge');
-
-
-    badge.textContent =
-        sessaoAtual.role==='superadmin'
-        ?'Super Admin'
-        :sessaoAtual.role==='admin'
-        ?'Administrador'
-        :'Professor';
-
-
-    badge.className =
-        'role-pill '+sessaoAtual.role;
-
-
-    formCard.classList.add('hidden');
-    sidebarCard.classList.add('hidden');
-
-    layout.classList.add('admin');
-
-    superAdminPanel.classList.add('hidden');
-
-
-    if(sessaoAtual.role==='professor'){
-
-        formCard.classList.remove('hidden');
-        layout.classList.remove('admin');
-        layout.classList.add('single');
-
-    }
-
-
-    if(sessaoAtual.role==='admin'){
-
-        sidebarCard.classList.remove('hidden');
-        layout.classList.remove('single');
-        layout.classList.add('admin');
-
-    }
-
-
-    if(sessaoAtual.role==='superadmin'){
-
-        superAdminPanel.classList.remove('hidden');
-
-    }
-
-
-    loginScreen.classList.add('hidden');
-
-    appWrap.classList.remove('hidden');
-
-    renderizarHistorico();
-
-    renderizarSuperAdmin();
-
+  sessao = { role: roleSel, nome: u.nome };
+  $("error-login").classList.remove("show");
+  $("loginUser").value = "";
+  $("loginPass").value = "";
+  abrirApp();
 }
 
+function abrirApp(){
+  $("login").classList.add("hidden");
+  $("appWrap").classList.remove("hidden");
+  $("userName").textContent = sessao.nome;
+  const pill = $("rolePill");
+  pill.textContent = USERS[sessao.role].label;
+  pill.className = "role-pill " + sessao.role;
 
-/* =========================================================
-   SAIR
-========================================================= */
+  $("detalhe").classList.remove("show");
+  const prof = sessao.role === "professor";
+  $("viewProfessor").classList.toggle("hidden", !prof);
+  $("viewAdmin").classList.toggle("hidden", prof);
+  $("superBadge").classList.toggle("hidden", sessao.role !== "superadmin");
+  $("adminTitulo").textContent = sessao.role === "superadmin" ? "Painel da direção" : "Painel da coordenação";
 
-document
-.getElementById('btnSair')
-.addEventListener('click',()=>{
-
-    sessaoAtual=null;
-
-    appWrap.classList.add('hidden');
-
-    loginScreen.classList.remove('hidden');
-
-    loginForm.reset();
-
-});
-
-
-/* =========================================================
-   BANCO LOCAL
-========================================================= */
-
-let ocorrencias =
-    JSON.parse(
-        localStorage.getItem('acompanhai_ocorrencias')
-    ) || [];
-
-
-function salvarDados(){
-
-    localStorage.setItem(
-        'acompanhai_ocorrencias',
-        JSON.stringify(ocorrencias)
-    );
-
+  if(prof){
+    $("fData").value = new Date().toISOString().slice(0,10);
+    renderProfessor();
+  } else {
+    renderAdmin();
+  }
 }
 
+$("btnSair").onclick = () => {
+  sessao = null;
+  $("appWrap").classList.add("hidden");
+  $("login").classList.remove("hidden");
+  gerarCaptcha();
+  toast("Você saiu do sistema.");
+};
 
 /* =========================================================
-   VARIÁVEIS
+   PROFESSOR
 ========================================================= */
+function contar(lista){
+  return {
+    total: lista.length,
+    verde: lista.filter(r => r.nivel === "verde").length,
+    amarela: lista.filter(r => r.nivel === "amarela").length,
+    vermelha: lista.filter(r => r.nivel === "vermelha").length
+  };
+}
+function minhas(){
+  return carregar().filter(r => r.autor === sessao.nome);
+}
+function renderProfessor(){
+  const lista = minhas();
+  const c = contar(lista);
+  $("statsProf").innerHTML = `
+    <div class="stat"><div class="stat-num">${c.total}</div><div class="stat-label">Total</div></div>
+    <div class="stat green"><div class="stat-num">${c.verde}</div><div class="stat-label">Leves</div></div>
+    <div class="stat yellow"><div class="stat-num">${c.amarela}</div><div class="stat-label">Moderadas</div></div>
+    <div class="stat red"><div class="stat-num">${c.vermelha}</div><div class="stat-label">Graves</div></div>`;
 
-let ultimaOcorrencia=null;
-
-
-const professorInput =
-    document.getElementById('professor');
-
-const alunoInput =
-    document.getElementById('aluno');
-
-const turmaInput =
-    document.getElementById('turma');
-
-const tipoInput =
-    document.getElementById('tipo');
-
-const descricaoInput =
-    document.getElementById('descricao');
-
-const celularInput =
-    document.getElementById('celular');
-
-const emailInput =
-    document.getElementById('email');
-
-
-/* =========================================================
-   DATA
-========================================================= */
-
-document
-.getElementById('dataAtual')
-.textContent =
-    new Date().toLocaleDateString(
-        'pt-BR',
-        {
-            weekday:'long',
-            day:'2-digit',
-            month:'long',
-            year:'numeric'
-        }
-    );
-
-
-/* =========================================================
-   PROTOCOLO
-========================================================= */
-
-function gerarProtocolo(){
-
-    const d=new Date();
-
-    const dia =
-        String(d.getDate())
-        .padStart(2,'0');
-
-    const mes =
-        String(d.getMonth()+1)
-        .padStart(2,'0');
-
-    const ano =
-        d.getFullYear();
-
-    const rand =
-        String(
-            Math.floor(
-                Math.random()*10000
-            )
-        ).padStart(4,'0');
-
-    return `OC-${ano}${mes}${dia}-${rand}`;
-
+  const box = $("histLista");
+  if(!lista.length){
+    box.innerHTML = `<div class="historico-vazio">Nenhuma ocorrência registrada ainda.</div>`;
+    return;
+  }
+  box.innerHTML = lista.slice().reverse().map(r => `
+    <div class="historico-item" data-id="${esc(r.id)}" tabindex="0">
+      <div class="item-header"><span>${esc(r.aluno)}</span><span class="badge ${NIVEL[r.nivel].cls}">${NIVEL[r.nivel].nome}</span></div>
+      <div class="item-sub">${esc(r.turma)} · ${esc(r.local)}</div>
+      <div class="item-data">${esc(r.protocolo)} · ${fmtData(r.data)}</div>
+    </div>`).join("");
+  box.querySelectorAll(".historico-item").forEach(el => {
+    el.onclick = () => mostrarDetalhe(el.dataset.id);
+    el.onkeydown = e => { if(e.key === "Enter") mostrarDetalhe(el.dataset.id); };
+  });
 }
 
+$("btnSubmit").onclick = () => {
+  const aluno = $("fAluno").value.trim();
+  const turma = $("fTurma").value.trim();
+  const data  = $("fData").value;
+  const desc  = $("fDesc").value.trim();
+  if(!aluno || !turma || !data || !desc){
+    toast("Preencha aluno, turma, data e descrição.");
+    return;
+  }
+  const todas = carregar();
+  const seq = String(todas.length + 1).padStart(4, "0");
+  const reg = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+    protocolo: `AC-${new Date().getFullYear()}-${seq}`,
+    aluno, turma, data,
+    local: $("fLocal").value,
+    nivel: document.querySelector("input[name=nivel]:checked").value,
+    descricao: desc,
+    providencia: $("fProv").value.trim(),
+    autor: sessao.nome,
+    criado: new Date().toLocaleString("pt-BR")
+  };
+  todas.push(reg);
+  salvar(todas);
 
-function formatarData(){
+  ["fAluno","fTurma","fDesc","fProv"].forEach(id => $(id).value = "");
+  $("nvVerde").checked = true;
+  renderProfessor();
+  mostrarDetalhe(reg.id);
+  toast("Ocorrência registrada.");
+};
 
-    return new Date()
-    .toLocaleString(
-        'pt-BR',
-        {
-            day:'2-digit',
-            month:'2-digit',
-            year:'numeric',
-            hour:'2-digit',
-            minute:'2-digit'
-        }
-    );
-
-}
-
-
-/* =========================================================
-   REGISTRAR OCORRÊNCIA
-========================================================= */
-
-document
-.getElementById('formOcorrencia')
-.addEventListener('submit',(e)=>{
-
-    e.preventDefault();
-
-
-    const nivel =
-        document.querySelector(
-            'input[name="nivel"]:checked'
-        );
-
-
-    if(
-        !professorInput.value.trim() ||
-        !alunoInput.value.trim() ||
-        !turmaInput.value.trim() ||
-        !tipoInput.value ||
-        !descricaoInput.value.trim() ||
-        !celularInput.value.trim() ||
-        !nivel
-    ){
-
-        mostrarToast(
-            'Preencha todos os campos obrigatórios.'
-        );
-
-        return;
-
-    }
-
-
-    const oc={
-
-        protocolo:gerarProtocolo(),
-
-        data:formatarData(),
-
-        professor:
-            professorInput.value.trim(),
-
-        aluno:
-            alunoInput.value.trim(),
-
-        turma:
-            turmaInput.value.trim(),
-
-        tipo:
-            tipoInput.value,
-
-        nivel:
-            nivel.value,
-
-        descricao:
-            descricaoInput.value.trim(),
-
-        celular:
-            celularInput.value.trim(),
-
-        email:
-            emailInput.value.trim()
-
-    };
-
-
-    ocorrencias.unshift(oc);
-
-    salvarDados();
-
-    console.info(
-        '[AcompanhAí] Ocorrência registrada',
-        {
-            protocolo:oc.protocolo,
-            nivel:oc.nivel,
-            tipo:oc.tipo
-        }
-    );
-
-    ultimaOcorrencia=oc;
-
-
-    mostrarDetalhes(oc);
-
-
-    document
-    .getElementById('formOcorrencia')
-    .reset();
-
-
-    renderizarHistorico();
-
-    renderizarSuperAdmin();
-
-
-    mostrarToast(
-        'Ocorrência registrada com sucesso!'
-    );
-
-});
-
+$("btnLimpar").onclick = () => {
+  if(!confirm("Apagar todas as suas ocorrências? Essa ação não pode ser desfeita.")) return;
+  salvar(carregar().filter(r => r.autor !== sessao.nome));
+  $("detalhe").classList.remove("show");
+  renderProfessor();
+  toast("Histórico apagado.");
+};
 
 /* =========================================================
-   HISTÓRICO
+   ADMIN / SUPER ADMIN
 ========================================================= */
-
-function classeNivel(nivel){
-
-    if(nivel==='Verde')
-        return 'badge-verde';
-
-    if(nivel==='Amarela')
-        return 'badge-amarela';
-
-    return 'badge-vermelha';
-
+function filtrados(){
+  const q = $("fBusca").value.trim().toLowerCase();
+  const n = $("fNivelFiltro").value;
+  return carregar().filter(r => {
+    if(n && r.nivel !== n) return false;
+    if(!q) return true;
+    return [r.aluno,r.turma,r.autor,r.protocolo].some(v => String(v).toLowerCase().includes(q));
+  });
 }
+function renderAdmin(){
+  const todas = carregar();
+  const c = contar(todas);
+  $("statsAdmin").innerHTML = `
+    <div class="stat"><div class="stat-num">${c.total}</div><div class="stat-label">Total</div></div>
+    <div class="stat green"><div class="stat-num">${c.verde}</div><div class="stat-label">Leves</div></div>
+    <div class="stat yellow"><div class="stat-num">${c.amarela}</div><div class="stat-label">Moderadas</div></div>
+    <div class="stat red"><div class="stat-num">${c.vermelha}</div><div class="stat-label">Graves</div></div>`;
 
+  const lista = filtrados().slice().reverse();
+  const podeExcluir = sessao.role === "superadmin";
+  $("tbody").innerHTML = lista.length ? lista.map(r => `
+    <tr>
+      <td style="font-family:'IBM Plex Mono',monospace">${esc(r.protocolo)}</td>
+      <td>${fmtData(r.data)}</td>
+      <td>${esc(r.aluno)}</td>
+      <td>${esc(r.turma)}</td>
+      <td><span class="badge ${NIVEL[r.nivel].cls}">${NIVEL[r.nivel].nome}</span></td>
+      <td>${esc(r.autor)}</td>
+      <td>
+        <button class="btn-ver" data-ver="${esc(r.id)}">Ver</button>
+        ${podeExcluir ? `<button class="btn-del" data-del="${esc(r.id)}">Excluir</button>` : ""}
+      </td>
+    </tr>`).join("")
+    : `<tr><td colspan="7" style="text-align:center;padding:26px;color:var(--ink-soft)">Nenhum registro encontrado.</td></tr>`;
 
-function emojiNivel(nivel){
-
-    if(nivel==='Verde')
-        return '🟢';
-
-    if(nivel==='Amarela')
-        return '🟡';
-
-    return '🔴';
-
+  $("tbody").querySelectorAll("[data-ver]").forEach(b => b.onclick = () => mostrarDetalhe(b.dataset.ver));
+  $("tbody").querySelectorAll("[data-del]").forEach(b => b.onclick = () => {
+    if(!confirm("Excluir este registro definitivamente?")) return;
+    salvar(carregar().filter(r => r.id !== b.dataset.del));
+    $("detalhe").classList.remove("show");
+    renderAdmin();
+    toast("Registro excluído.");
+  });
 }
+$("fBusca").oninput = () => renderAdmin();
+$("fNivelFiltro").onchange = () => renderAdmin();
 
-
-function renderizarHistorico(){
-
-    const lista =
-        document.getElementById(
-            'historicoLista'
-        );
-
-    if(!lista)return;
-
-
-    lista.innerHTML='';
-
-
-    const total =
-        document.getElementById(
-            'statTotal'
-        );
-
-    const hoje =
-        document.getElementById(
-            'statHoje'
-        );
-
-
-    if(total)
-        total.textContent=
-            ocorrencias.length;
-
-
-    const dataHoje =
-        new Date()
-        .toLocaleDateString('pt-BR');
-
-
-    if(hoje){
-
-        hoje.textContent =
-            ocorrencias.filter(o=>{
-
-                return o.data
-                .startsWith(dataHoje);
-
-            }).length;
-
-    }
-
-
-    if(ocorrencias.length===0){
-
-        lista.innerHTML=
-            `<div class="historico-vazio">
-                Nenhuma ocorrência registrada.
-            </div>`;
-
-        return;
-
-    }
-
-
-    ocorrencias.forEach(oc=>{
-
-        const item =
-            document.createElement('div');
-
-        item.className =
-            'historico-item';
-
-
-        item.style.borderLeftColor =
-            oc.nivel==='Verde'
-            ?'var(--green)'
-            :oc.nivel==='Amarela'
-            ?'var(--yellow)'
-            :'var(--red)';
-
-
-        item.innerHTML=`
-
-            <div class="item-header">
-
-                <span>
-                    ${emojiNivel(oc.nivel)}
-                    ${oc.aluno}
-                </span>
-
-                <span
-                    class="badge ${classeNivel(oc.nivel)}">
-
-                    ${oc.nivel}
-
-                </span>
-
-            </div>
-
-            <div class="item-sub">
-
-                ${oc.turma} · ${oc.professor}
-
-            </div>
-
-            <div class="item-data">
-
-                ${oc.data}
-
-            </div>
-
-        `;
-
-
-        item.addEventListener(
-            'click',
-            ()=>{
-                mostrarDetalhes(oc);
-            }
-        );
-
-
-        lista.appendChild(item);
-
-    });
-
-}
-
+$("btnExport").onclick = () => {
+  const lista = filtrados();
+  if(!lista.length){ toast("Nada para exportar."); return; }
+  const cab = ["Protocolo","Data","Aluno","Turma","Local","Nível","Descrição","Providências","Professor","Registrado em"];
+  const cel = v => `"${String(v ?? "").replace(/"/g,'""')}"`;
+  const linhas = lista.map(r => [r.protocolo,fmtData(r.data),r.aluno,r.turma,r.local,NIVEL[r.nivel].nome,r.descricao,r.providencia,r.autor,r.criado].map(cel).join(";"));
+  const csv = "\uFEFF" + [cab.map(cel).join(";"), ...linhas].join("\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], {type:"text/csv;charset=utf-8"}));
+  a.download = "ocorrencias-acompanhai.csv";
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast("Arquivo exportado.");
+};
 
 /* =========================================================
-   DETALHES
+   DETALHE + AÇÕES
 ========================================================= */
-
-function mostrarDetalhes(oc){
-
-    ultimaOcorrencia=oc;
-
-
-    const resultado =
-        document.getElementById(
-            'resultado'
-        );
-
-
-    const conteudo =
-        document.getElementById(
-            'resultadoConteudo'
-        );
-
-
-    resultado.classList.add('show');
-
-
-    const cor =
-        oc.nivel==='Verde'
-        ?'var(--green)'
-        :oc.nivel==='Amarela'
-        ?'var(--yellow)'
-        :'var(--red)';
-
-
-    conteudo.innerHTML=`
-
-        <h3 style="margin-bottom:15px;">
-            Ocorrência registrada
-        </h3>
-
-        <dl>
-
-            <dt>Protocolo</dt>
-            <dd>${oc.protocolo}</dd>
-
-            <dt>Data</dt>
-            <dd>${oc.data}</dd>
-
-            <dt>Professor</dt>
-            <dd>${oc.professor}</dd>
-
-            <dt>Aluno</dt>
-            <dd>${oc.aluno}</dd>
-
-            <dt>Turma</dt>
-            <dd>${oc.turma}</dd>
-
-            <dt>Nível</dt>
-
-            <dd>
-
-                <span
-                    class="nivel-detalhe"
-                    style="
-                        background:${oc.nivel==='Verde'
-                        ?'var(--green-bg)'
-                        :oc.nivel==='Amarela'
-                        ?'var(--yellow-bg)'
-                        :'var(--red-bg)'};
-                        color:${cor};
-                    ">
-
-                    ${emojiNivel(oc.nivel)}
-                    ${oc.nivel}
-
-                </span>
-
-            </dd>
-
-            <dt>Tipo</dt>
-            <dd>${oc.tipo}</dd>
-
-            <dt>Descrição</dt>
-            <dd>${oc.descricao}</dd>
-
-            <dt>WhatsApp</dt>
-            <dd>${oc.celular}</dd>
-
-        </dl>
-
-    `;
-
-
-    document
-    .getElementById('protocolo')
-    .textContent =
-        `Protocolo ${oc.protocolo} · ${oc.data}`;
-
+function textoRegistro(r){
+  return `AcompanhAí · Ocorrência ${r.protocolo}\n` +
+    `Aluno: ${r.aluno} (${r.turma})\n` +
+    `Data: ${fmtData(r.data)} · Local: ${r.local}\n` +
+    `Nível: ${NIVEL[r.nivel].nome}\n` +
+    `Descrição: ${r.descricao}\n` +
+    `Providências: ${r.providencia || "—"}\n` +
+    `Registrado por: ${r.autor}`;
 }
-
-
-/* =========================================================
-   LIMPAR HISTÓRICO
-========================================================= */
-
-document
-.getElementById('btnLimparHistorico')
-.addEventListener('click',()=>{
-
-    if(
-        !confirm(
-            'Deseja realmente apagar todo o histórico?'
-        )
-    )return;
-
-
-    ocorrencias=[];
-
-    salvarDados();
-
-    renderizarHistorico();
-
-    renderizarSuperAdmin();
-
-    mostrarToast(
-        'Histórico apagado.'
-    );
-
-});
-
-
-/* =========================================================
-   CELULAR
-========================================================= */
-
-celularInput.addEventListener(
-    'input',
-    function(){
-
-        let d =
-            this.value
-            .replace(/\D/g,'')
-            .slice(0,11);
-
-        let f='';
-
-
-        if(d.length>0)
-            f='('+d.slice(0,2);
-
-
-        if(d.length>2)
-            f+=') '+d.slice(2,7);
-
-
-        if(d.length>7)
-            f+='-'+d.slice(7);
-
-
-        this.value=f;
-
-    }
-);
-
-
-/* =========================================================
-   WHATSAPP
-========================================================= */
-
-function enviarWhatsApp(){
-
-    if(!ultimaOcorrencia){
-
-        mostrarToast(
-            'Nenhuma ocorrência selecionada.'
-        );
-
-        return;
-
-    }
-
-
-    const oc=ultimaOcorrencia;
-
-
-    const numero =
-        oc.celular
-        .replace(/\D/g,'');
-
-
-    const mensagem =
-`*AcompanhAí — Ocorrência Escolar*
-
-Protocolo: ${oc.protocolo}
-Data: ${oc.data}
-Professor: ${oc.professor}
-Aluno: ${oc.aluno}
-Turma: ${oc.turma}
-Nível: ${emojiNivel(oc.nivel)} ${oc.nivel}
-Tipo: ${oc.tipo}
-
-Descrição:
-${oc.descricao}`;
-
-
-    window.open(
-        `https://wa.me/55${numero}?text=${encodeURIComponent(mensagem)}`,
-        '_blank'
-    );
-
-}
-
-
-/* =========================================================
-   COPIAR
-========================================================= */
-
-function copiarOcorrencia(){
-
-    if(!ultimaOcorrencia)return;
-
-
-    const oc=ultimaOcorrencia;
-
-
-    const texto =
-`AcompanhAí — Ocorrência Escolar
-
-Protocolo: ${oc.protocolo}
-Data: ${oc.data}
-Professor: ${oc.professor}
-Aluno: ${oc.aluno}
-Turma: ${oc.turma}
-Nível: ${oc.nivel}
-Tipo: ${oc.tipo}
-Descrição: ${oc.descricao}`;
-
-
-    navigator.clipboard
-    .writeText(texto)
-    .then(()=>{
-
-        mostrarToast(
-            'Ocorrência copiada!'
-        );
-
-    });
-
-}
-
-
-/* =========================================================
-   PDF
-========================================================= */
-
-function baixarPDF(){
-
-    if(!ultimaOcorrencia)return;
-
-
-    const oc=ultimaOcorrencia;
-
-
-    const janela =
-        window.open('','_blank');
-
-
-    janela.document.write(`
-
-        <html>
-
-        <head>
-
-            <title>
-                Ocorrência ${oc.protocolo}
-            </title>
-
-            <style>
-
-                body{
-                    font-family:Arial;
-                    padding:40px;
-                    color:#181414;
-                }
-
-                h1{
-                    color:#8E1B26;
-                }
-
-                table{
-                    width:100%;
-                    border-collapse:collapse;
-                }
-
-                td{
-                    padding:10px;
-                    border-bottom:1px solid #ddd;
-                }
-
-                td:first-child{
-                    font-weight:bold;
-                    width:180px;
-                }
-
-            </style>
-
-        </head>
-
-        <body>
-
-            <h1>
-                AcompanhAí
-            </h1>
-
-            <p>
-                Registro de Ocorrência Escolar
-            </p>
-
-            <hr>
-
-            <table>
-
-                <tr>
-                    <td>Protocolo</td>
-                    <td>${oc.protocolo}</td>
-                </tr>
-
-                <tr>
-                    <td>Data</td>
-                    <td>${oc.data}</td>
-                </tr>
-
-                <tr>
-                    <td>Professor</td>
-                    <td>${oc.professor}</td>
-                </tr>
-
-                <tr>
-                    <td>Aluno</td>
-                    <td>${oc.aluno}</td>
-                </tr>
-
-                <tr>
-                    <td>Turma</td>
-                    <td>${oc.turma}</td>
-                </tr>
-
-                <tr>
-                    <td>Nível</td>
-                    <td>
-                        ${emojiNivel(oc.nivel)}
-                        ${oc.nivel}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>Tipo</td>
-                    <td>${oc.tipo}</td>
-                </tr>
-
-                <tr>
-                    <td>Descrição</td>
-                    <td>${oc.descricao}</td>
-                </tr>
-
-            </table>
-
-            <br><br>
-
-            <p>
-                Documento gerado pelo AcompanhAí.
-            </p>
-
-        </body>
-
-        </html>
-
-    `);
-
-
-    janela.document.close();
-
-    janela.print();
-
-}
-
-
-/* =========================================================
-   SUPER ADMIN
-========================================================= */
-
-function renderizarSuperAdmin(){
-
-    const total =
-        document.getElementById(
-            'adminTotal'
-        );
-
-    const verde =
-        document.getElementById(
-            'adminVerde'
-        );
-
-    const amarela =
-        document.getElementById(
-            'adminAmarela'
-        );
-
-    const vermelha =
-        document.getElementById(
-            'adminVermelha'
-        );
-
-
-    if(total)
-        total.textContent =
-            ocorrencias.length;
-
-
-    if(verde)
-        verde.textContent =
-            ocorrencias.filter(
-                o=>o.nivel==='Verde'
-            ).length;
-
-
-    if(amarela)
-        amarela.textContent =
-            ocorrencias.filter(
-                o=>o.nivel==='Amarela'
-            ).length;
-
-
-    if(vermelha)
-        vermelha.textContent =
-            ocorrencias.filter(
-                o=>o.nivel==='Vermelha'
-            ).length;
-
-
-    renderizarTabela();
-
-}
-
-
-/* =========================================================
-   TABELA SUPER ADMIN
-========================================================= */
-
-function renderizarTabela(){
-
-    const tabela =
-        document.getElementById(
-            'adminTabela'
-        );
-
-
-    if(!tabela)return;
-
-
-    const busca =
-        document
-        .getElementById('buscaAdmin')
-        .value
-        .toLowerCase();
-
-
-    const filtro =
-        document
-        .getElementById('filtroNivel')
-        .value;
-
-
-    const registros =
-        ocorrencias.filter(oc=>{
-
-            const texto =
-                `${oc.protocolo}
-                ${oc.aluno}
-                ${oc.professor}
-                ${oc.turma}
-                ${oc.tipo}`
-                .toLowerCase();
-
-
-            const bateBusca =
-                texto.includes(busca);
-
-
-            const bateFiltro =
-                filtro==='todos' ||
-                oc.nivel===filtro;
-
-
-            return bateBusca &&
-                   bateFiltro;
-
-        });
-
-
-    tabela.innerHTML='';
-
-
-    if(registros.length===0){
-
-        tabela.innerHTML=`
-
-            <tr>
-
-                <td
-                    colspan="8"
-                    style="text-align:center;">
-
-                    Nenhum registro encontrado.
-
-                </td>
-
-            </tr>
-
-        `;
-
-        return;
-
-    }
-
-
-    registros.forEach(oc=>{
-
-        const tr =
-            document.createElement('tr');
-
-
-        tr.innerHTML=`
-
-            <td>
-                ${oc.protocolo}
-            </td>
-
-            <td>
-                ${oc.aluno}
-            </td>
-
-            <td>
-                ${oc.turma}
-            </td>
-
-            <td>
-                ${oc.professor}
-            </td>
-
-            <td>
-
-                <span
-                    class="badge ${classeNivel(oc.nivel)}">
-
-                    ${emojiNivel(oc.nivel)}
-                    ${oc.nivel}
-
-                </span>
-
-            </td>
-
-            <td>
-                ${oc.tipo}
-            </td>
-
-            <td>
-                ${oc.data}
-            </td>
-
-            <td>
-
-                <button
-                    class="btn-ver">
-
-                    Ver
-
-                </button>
-
-            </td>
-
-        `;
-
-
-        tr
-        .querySelector('.btn-ver')
-        .addEventListener(
-            'click',
-            ()=>{
-
-                mostrarDetalhes(oc);
-
-                window.scrollTo({
-                    top:document.body.scrollHeight,
-                    behavior:'smooth'
-                });
-
-            }
-        );
-
-
-        tabela.appendChild(tr);
-
-    });
-
-}
-
-
-document
-.getElementById('buscaAdmin')
-.addEventListener(
-    'input',
-    renderizarTabela
-);
-
-
-document
-.getElementById('filtroNivel')
-.addEventListener(
-    'change',
-    renderizarTabela
-);
-
-
-/* =========================================================
-   EXPORTAR CSV
-========================================================= */
-
-document
-.getElementById('btnExportar')
-.addEventListener('click',()=>{
-
-    if(ocorrencias.length===0){
-
-        mostrarToast(
-            'Não existem registros para exportar.'
-        );
-
-        return;
-
-    }
-
-
-    let csv =
-        'Protocolo;Data;Professor;Aluno;Turma;Nivel;Tipo;Descricao;Celular;Email\n';
-
-
-    ocorrencias.forEach(oc=>{
-
-        csv += [
-
-            oc.protocolo,
-            oc.data,
-            oc.professor,
-            oc.aluno,
-            oc.turma,
-            oc.nivel,
-            oc.tipo,
-            oc.descricao,
-            oc.celular,
-            oc.email
-
-        ]
-        .map(valor=>
-            `"${String(valor || '')
-            .replace(/"/g,'""')}"`
-        )
-        .join(';');
-
-
-        csv += '\n';
-
-    });
-
-
-    const blob =
-        new Blob(
-            ['\ufeff'+csv],
-            {
-                type:'text/csv;charset=utf-8;'
-            }
-        );
-
-
-    const url =
-        URL.createObjectURL(blob);
-
-
-    const a =
-        document.createElement('a');
-
-
-    a.href=url;
-
-    a.download=
-        'acompanhai_registros.csv';
-
-
-    a.click();
-
-
-    URL.revokeObjectURL(url);
-
-
-    mostrarToast(
-        'Registros exportados!'
-    );
-
-});
-
-
-/* =========================================================
-   MODO ESCURO / CLARO
-========================================================= */
-
-const btnTema =
-    document.getElementById(
-        'btnTema'
-    );
-
-
-let temaSalvo =
-    localStorage.getItem(
-        'acompanhai_tema'
-    );
-
-
-if(temaSalvo==='dark'){
-
-    document.body.classList.add('dark');
-
-    btnTema.textContent='☀️';
-
-}
-
-
-btnTema.addEventListener('click',()=>{
-
-    document.body.classList.toggle('dark');
-
-
-    const dark =
-        document.body.classList.contains('dark');
-
-
-    btnTema.textContent =
-        dark
-        ?'☀️'
-        :'🌙';
-
-
-    localStorage.setItem(
-        'acompanhai_tema',
-        dark
-        ?'dark'
-        :'light'
-    );
-
-});
-
-
-/* =========================================================
-   LIBRAS
-========================================================= */
-
-document
-.getElementById('btnLibras')
-.addEventListener('click',()=>{
-
-    if(
-        window.openVLibras
-    ){
-
-        window.openVLibras();
-
-    }else{
-
-        mostrarToast(
-            'Carregando acessibilidade em Libras...'
-        );
-
-    }
-
-});
-
-
-/* =========================================================
-   CHAT
-========================================================= */
-
-const chatButton =
-    document.getElementById(
-        'chatButton'
-    );
-
-const chatBox =
-    document.getElementById(
-        'chatBox'
-    );
-
-const chatClose =
-    document.getElementById(
-        'chatClose'
-    );
-
-const chatInput =
-    document.getElementById(
-        'chatInput'
-    );
-
-const chatSend =
-    document.getElementById(
-        'chatSend'
-    );
-
-const chatMessages =
-    document.getElementById(
-        'chatMessages'
-    );
-
-
-chatButton.addEventListener(
-    'click',
-    ()=>{
-        chatBox.classList.toggle('show');
-
-        if(
-            chatBox.classList.contains('show')
-        ){
-
-            chatInput.focus();
-
-        }
-
-    }
-);
-
-
-chatClose.addEventListener(
-    'click',
-    ()=>{
-        chatBox.classList.remove('show');
-    }
-);
-
-
-chatSend.addEventListener(
-    'click',
-    enviarMensagemChat
-);
-
-
-chatInput.addEventListener(
-    'keydown',
-    e=>{
-
-        if(e.key==='Enter')
-            enviarMensagemChat();
-
-    }
-);
-
-
-function adicionarMensagem(
-    texto,
-    tipo
-){
-
-    const div =
-        document.createElement('div');
-
-
-    div.className =
-        'chat-message '+tipo;
-
-
-    div.innerHTML=texto;
-
-
-    chatMessages.appendChild(div);
-
-
-    chatMessages.scrollTop =
-        chatMessages.scrollHeight;
-
-}
-
-
-function enviarMensagemChat(){
-
-    const texto =
-        chatInput.value.trim();
-
-
-    if(!texto)return;
-
-
-    adicionarMensagem(
-        texto,
-        'user'
-    );
-
-
-    chatInput.value='';
-
-
-    setTimeout(()=>{
-
-        const p =
-            texto.toLowerCase();
-
-
-        let resposta =
-            'Não encontrei uma resposta. Tente perguntar sobre ocorrência, níveis, WhatsApp, PDF, login, histórico ou acessibilidade.';
-
-
-        if(
-            p.includes('ocorrência') ||
-            p.includes('ocorrencia') ||
-            p.includes('registrar')
-        ){
-
-            resposta =
-                'Para registrar uma ocorrência, entre como <strong>Professor</strong>, preencha os dados do aluno, escolha o tipo e selecione um dos três níveis: 🟢 <strong>Verde</strong>, 🟡 <strong>Amarela</strong> ou 🔴 <strong>Vermelha</strong>.';
-
-        }
-
-
-        else if(
-            p.includes('nível') ||
-            p.includes('nivel')
-        ){
-
-            resposta =
-                '🟢 Verde significa baixa gravidade. 🟡 Amarela representa média gravidade. 🔴 Vermelha indica alta gravidade.';
-
-        }
-
-
-        else if(
-            p.includes('whatsapp')
-        ){
-
-            resposta =
-                'Após registrar a ocorrência, clique no botão <strong>📱 WhatsApp</strong> para abrir uma mensagem preenchida automaticamente.';
-
-        }
-
-
-        else if(
-            p.includes('pdf')
-        ){
-
-            resposta =
-                'Selecione uma ocorrência e clique em <strong>PDF</strong>. Depois escolha a opção <strong>Salvar como PDF</strong>.';
-
-        }
-
-
-        else if(
-            p.includes('libras') ||
-            p.includes('acessibilidade')
-        ){
-
-            resposta =
-                'Clique no botão 🤟 no canto superior da tela para ativar o recurso de acessibilidade em Libras.';
-
-        }
-
-
-        else if(
-            p.includes('escuro') ||
-            p.includes('claro') ||
-            p.includes('tema')
-        ){
-
-            resposta =
-                'Clique no botão 🌙 ou ☀️ no canto superior para alternar entre o modo escuro e o modo claro.';
-
-        }
-
-
-        else if(
-            p.includes('super admin')
-        ){
-
-            resposta =
-                'O Super Admin possui acesso ao painel completo, podendo visualizar todos os registros, filtrar ocorrências, pesquisar alunos e exportar os dados.';
-
-        }
-
-
-        else if(
-            p.includes('login') ||
-            p.includes('senha')
-        ){
-
-            resposta =
-                'Professor: <strong>professor / professor123</strong><br><br>Administrador: <strong>admin / admin123</strong><br><br>Super Admin: <strong>superadmin / super123</strong>';
-
-        }
-
-
-        adicionarMensagem(
-            resposta,
-            'bot'
-        );
-
-    },500);
-
-}
-
-
-function responderChat(tipo){
-
-    let texto='';
-
-
-    if(tipo==='registrar')
-        texto='Como registrar uma ocorrência?';
-
-
-    if(tipo==='whatsapp')
-        texto='Como enviar pelo WhatsApp?';
-
-
-    if(tipo==='pdf')
-        texto='Como gerar o PDF?';
-
-
-    if(tipo==='login')
-        texto='Estou com problema no login';
-
-
-    adicionarMensagem(
-        texto,
-        'user'
-    );
-
-
-    chatInput.value='';
-
-
-    setTimeout(()=>{
-
-        enviarMensagemAutomatica(
-            tipo
-        );
-
-    },400);
-
-}
-
-
-function enviarMensagemAutomatica(tipo){
-
-    let resposta='';
-
-
-    if(tipo==='registrar'){
-
-        resposta =
-            'Entre como <strong>Professor</strong>, preencha os dados, selecione o nível da ocorrência e clique em <strong>Registrar Ocorrência</strong>.';
-
-    }
-
-
-    if(tipo==='whatsapp'){
-
-        resposta =
-            'Após selecionar uma ocorrência, clique em <strong>📱 WhatsApp</strong>.';
-
-    }
-
-
-    if(tipo==='pdf'){
-
-        resposta =
-            'Clique em <strong>PDF</strong> e depois selecione <strong>Salvar como PDF</strong>.';
-
-    }
-
-
-    if(tipo==='login'){
-
-        resposta =
-            'Professor: <strong>professor / professor123</strong><br><br>Administrador: <strong>admin / admin123</strong><br><br>Super Admin: <strong>superadmin / super123</strong>';
-
-    }
-
-
-    adicionarMensagem(
-        resposta,
-        'bot'
-    );
-
-}
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-let toastTimer;
-
-
-function mostrarToast(mensagem){
-
-    const toast =
-        document.getElementById(
-            'toast'
-        );
-
-
-    document
-    .getElementById('toastMsg')
-    .textContent =
-        mensagem;
-
-
-    toast.classList.add('show');
-
-
-    clearTimeout(toastTimer);
-
-
-    toastTimer =
-        setTimeout(()=>{
-
-            toast.classList.remove('show');
-
-        },3000);
-
-}
-
-</script>
-
-
-<!-- =========================================================
-     VLIBRAS
-========================================================= -->
-
-<div vw class="enabled">
-
-    <div
-        vw-access-button
-        class="active">
+function mostrarDetalhe(id){
+  const r = carregar().find(x => x.id === id);
+  if(!r) return;
+  const box = $("detalhe");
+  box.innerHTML = `
+    <h3>Ocorrência registrada</h3>
+    <dl>
+      <dt>Aluno</dt><dd>${esc(r.aluno)}</dd>
+      <dt>Turma</dt><dd>${esc(r.turma)}</dd>
+      <dt>Data</dt><dd>${fmtData(r.data)}</dd>
+      <dt>Local</dt><dd>${esc(r.local)}</dd>
+      <dt>Nível</dt><dd><span class="nivel-detalhe ${NIVEL[r.nivel].cls}">${NIVEL[r.nivel].emoji} ${NIVEL[r.nivel].nome}</span></dd>
+      <dt>Descrição</dt><dd>${esc(r.descricao)}</dd>
+      <dt>Providências</dt><dd>${esc(r.providencia || "—")}</dd>
+      <dt>Professor</dt><dd>${esc(r.autor)}</dd>
+    </dl>
+    <div class="resultado-actions">
+      <button class="btn-wa" id="bWa">WhatsApp</button>
+      <button class="btn-copy" id="bCopy">Copiar</button>
+      <button class="btn-pdf" id="bPdf">Salvar PDF</button>
     </div>
+    <div class="protocolo-strip">PROTOCOLO ${esc(r.protocolo)} · ${esc(r.criado)}</div>`;
+  box.classList.add("show");
+  $("bWa").onclick = () => window.open("https://wa.me/?text=" + encodeURIComponent(textoRegistro(r)), "_blank");
+  $("bCopy").onclick = async () => {
+    try{ await navigator.clipboard.writeText(textoRegistro(r)); toast("Copiado."); }
+    catch(e){ toast("Não foi possível copiar."); }
+  };
+  $("bPdf").onclick = () => window.print();
+  box.scrollIntoView({behavior:"smooth", block:"nearest"});
+}
 
-    <div
-        vw-plugin-wrapper>
+/* =========================================================
+   TEMA E FONTE
+========================================================= */
+let escalaFonte = 0;
+$("btnFonte").onclick = () => {
+  escalaFonte = (escalaFonte + 1) % 3;
+  document.documentElement.style.fontSize = [16,18,20][escalaFonte] + "px";
+  toast("Tamanho da fonte: " + ["normal","médio","grande"][escalaFonte]);
+};
+$("btnTema").onclick = () => {
+  document.body.classList.toggle("dark");
+  const escuro = document.body.classList.contains("dark");
+  $("btnTema").textContent = escuro ? "☀️" : "🌙";
+  try{ localStorage.setItem("acompanhai_tema", escuro ? "dark" : "light"); }catch(e){}
+};
+try{
+  if(localStorage.getItem("acompanhai_tema") === "dark"){
+    document.body.classList.add("dark");
+    $("btnTema").textContent = "☀️";
+  }
+}catch(e){}
 
-        <div class="vw-plugin-top-wrapper">
-        </div>
-
-    </div>
-
-</div>
-
-
-<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-
-<script>
-
-new window.VLibras.Widget(
-    'https://vlibras.gov.br/app'
-);
-
+/* =========================================================
+   CHAT (assistente por palavras-chave)
+========================================================= */
+const RESPOSTAS = [
+  [/(nível|nivel|cor|verde|amarel|vermelh|grave|leve)/i, "Verde é leve (orientação), amarela é moderada (acompanhamento) e vermelha é grave (ação imediata, com aviso à coordenação)."],
+  [/(registrar|nova|criar|cadastr)/i, "Entre como Professor, preencha aluno, turma, data e descrição, escolha o nível e clique em “Registrar ocorrência”."],
+  [/(protocolo)/i, "Cada ocorrência recebe um protocolo no formato AC-ANO-0001, que aparece no resumo e no histórico."],
+  [/(pdf|imprim)/i, "No detalhe da ocorrência, clique em “Salvar PDF” e escolha “Salvar como PDF” na janela de impressão."],
+  [/(whats|compartilh|enviar)/i, "No detalhe da ocorrência, o botão “WhatsApp” abre a conversa com o resumo pronto para enviar."],
+  [/(exportar|csv|planilha|excel)/i, "Admin e Super Admin podem clicar em “Exportar CSV” no painel. O arquivo respeita os filtros ativos."],
+  [/(excluir|apagar|remover)/i, "Somente o Super Admin exclui registros individuais. O professor pode limpar o próprio histórico."],
+  [/(senha|login|acesso|captcha)/i, "Escolha seu perfil, informe usuário e senha e digite o código da imagem. Se não conseguir ler, use o botão ↻ para gerar outro."],
+  [/(escuro|tema|fonte|acessib)/i, "Os botões no canto superior permitem alternar o modo escuro e aumentar o tamanho da fonte."]
+];
+function addMsg(txt, tipo){
+  const d = document.createElement("div");
+  d.className = "chat-message " + tipo;
+  d.textContent = txt;
+  $("chatMsgs").appendChild(d);
+  $("chatMsgs").scrollTop = 1e6;
+}
+function responder(q){
+  const hit = RESPOSTAS.find(([re]) => re.test(q));
+  addMsg(hit ? hit[1] : "Posso ajudar com níveis de ocorrência, registro, protocolo, PDF, WhatsApp, exportação e acesso. Sobre qual desses você quer saber?", "bot");
+}
+function enviarChat(){
+  const v = $("chatInput").value.trim();
+  if(!v) return;
+  addMsg(v, "user");
+  $("chatInput").value = "";
+  setTimeout(() => responder(v), 350);
+}
+$("chatBtn").onclick = () => {
+  $("chatBox").classList.toggle("show");
+  if(!$("chatMsgs").children.length) addMsg("Olá! Sou o assistente do AcompanhAí. Como posso ajudar?", "bot");
+};
+$("chatClose").onclick = () => $("chatBox").classList.remove("show");
+$("chatSend").onclick = enviarChat;
+$("chatInput").addEventListener("keydown", e => { if(e.key === "Enter") enviarChat(); });
 </script>
-
 </body>
 </html>
-```
